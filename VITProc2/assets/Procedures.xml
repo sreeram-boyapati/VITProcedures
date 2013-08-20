@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<Procedures>
+		<Procedure>
+			<Office>Director Student Welfare</Office>
+			<Query>Permission to conduct an Event</Query>
+			<Freshers>Yes</Freshers>
+			<Clubs>Yes</Clubs>
+			<Proc>asdsajdalsdasd</Proc>
+		</Procedure>
+		<Procedure>
+			<Office>Director Academics</Office>
+			<Query>Permission to renew attendance</Query>
+			<Proc>cvxbcvbvcbsdfwerq</Proc>
+		</Procedure>
+		<Procedure>
+			<Office>Controller of Examinations</Office>
+			<Query>Apply for a new hall ticket</Query>
+			<Proc>mnnbcdwert</Proc>
+		</Procedure>
+	</Procedures>
