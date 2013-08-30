@@ -14,6 +14,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.renderscript.Element;
+import android.util.Log;
 import android.widget.Toast;
 
 public class XMLHandler {
@@ -21,16 +22,54 @@ public class XMLHandler {
 	private static final String KEY_CATEGORY = "Category";
 	private static final String KEY_ITEM = "Categories";
 	private FileInputStream file;
-
+	private XMLParser Parser;
+	private static final String URL="http://practiceapp911@appspot.com/catData";
+	private Document doc;
+	private NodeList nl;
 	public XMLHandler() {
 
 	}
 
-	public void getCategories(String File,Context context) throws XmlPullParserException {
+	public void getCategories(Context context){
+		String[] Categories;
+		String[] ffff={"f","u","c","k"};
+		try
+		{
 		ArrayList<String> al = new ArrayList<String>();
-		String[] Categories = null;
+			String XML=Parser.getXmlFromUrl(URL);
+			if(XML==null)
+			{
+				Log.d("XML",XML);
+			}
+			else
+			{
+			/*doc=Parser.getDomElement(XML);
+			nl=doc.getElementsByTagName(KEY_ITEM);
+			for(int i = 0; i < nl.getLength(); i++)
+			{
+				Element j=(Element) nl.item(i);
+				al.add(Parser.getValue(j, KEY_CATEGORY));
+			}
+			Categories = new String[al.size()];
+			Categories = al.toArray(Categories);*/
+			Toast.makeText(context,XML, Toast.LENGTH_SHORT).show();
+		}
+		}
+		catch(NullPointerException e)
+		{
+			e.printStackTrace();
+		}
+		/*if(Categories!=null)
+		{
+			return Categories;
+		}
+		else
+		{
+			return ffff;
+		}*/
 		
-		try{
+		
+		/*try{
 		
 		XmlPullParserFactory xmlPull=XmlPullParserFactory.newInstance();
 		xmlPull.setNamespaceAware(true);
@@ -52,5 +91,6 @@ public class XMLHandler {
 		Categories = new String[al.size()];
 		Categories = al.toArray(Categories);
 		Toast.makeText(context,Categories[1],Toast.LENGTH_LONG).show();
+	}*/
 	}
 }

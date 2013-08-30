@@ -3,7 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/draweritem"
-    android:textStyle="bold" >
-    
+    android:textColor="#7e7e7e"
+    android:paddingLeft="32dip"
+    android:paddingTop="15dip"
+    android:paddingBottom="10dip"
+    android:typeface="serif"
+    android:ellipsize="end"
+    android:textSize="22sp"/>
 
-</TextView>

@@ -1,15 +1,23 @@
 package com.example.vitproc2;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.URL;
+import java.util.ArrayList;
 
-import java.io.StringWriter;
-import org.apache.commons.io.IOUtils;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.content.res.AssetManager.AssetInputStream;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.renderscript.Element;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -28,15 +37,18 @@ public class MainActivity extends Activity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private XMLHandler Xml;
-	private AssetInputStream IS;
 	private String File;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private CardUI CardView;
-
+	private XMLParser Parser;
+	private static final String Cat_URL="http://practiceapp911@appspot.com/catData";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+		StrictMode.setThreadPolicy(policy); 
 		// Establish the drawer layout
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		getActionBar().setHomeButtonEnabled(true);
@@ -57,25 +69,13 @@ public class MainActivity extends Activity {
 				invalidateOptionsMenu();
 			}
 		};
+		Categories=new XMLFetch().doInBackground(Cat_URL);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		// Populate Drawer Layout with Lists.
-
-		try {
-			AssetManager am=getAssets();
-			InputStream io=am.open("Categories.xml");
-			StringWriter writer=new StringWriter();
-			IOUtils.copy(io,writer);
-			String parse=writer.toString();
-			
-		} catch (Exception e) {
-			throw new Error(e);
-		}
-		
 		String planets[]={"Earth","Venus"};
 		mDrawerList.setAdapter(new ArrayAdapter<String>(
-				getApplicationContext(), R.layout.drawerlistitem,planets));
-		mDrawerList
-				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				getApplicationContext(), R.layout.drawerlistitem, Categories));
+		mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1,
@@ -139,4 +139,45 @@ public class MainActivity extends Activity {
 
 		return super.onOptionsItemSelected(item);
 	}
+}
+class XMLFetch extends AsyncTask<String, Void, String[]>
+{
+	private String[] Categories;
+	private XMLParser Parser;
+	private String temp;
+	private char[] buf;
+	ArrayList<String> al = new ArrayList<String>();
+	@Override
+	protected String[] doInBackground(String... URL) {
+		try{
+			
+				java.net.URL conn=new URL("http://www.practiceapp911.appspot.com/catData");
+				XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+				factory.setNamespaceAware(false);
+				XmlPullParser xpp = factory.newPullParser();
+				
+				xpp.setInput(conn.openStream(), "UTF-8");
+				int eventType=xpp.getEventType();
+				while(eventType != XmlPullParser.END_DOCUMENT)
+				{		
+					if(eventType == XmlPullParser.TEXT)
+					{
+						if(xpp.getText().matches("^\\w.*?"))
+							al.add(xpp.getText());
+					}
+					eventType=xpp.next();
+				}
+				
+				Categories=new String[al.size()];
+				Categories=al.toArray(Categories);
+	 		}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+		// TODO Auto-generated method stub
+		return Categories;
+	}
+	
+
 }
