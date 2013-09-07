@@ -19,12 +19,15 @@ import os
 
 curdir = os.getcwd()
 
-filedir = os.path.abspath(os.path.join(curdir, 'templates/Categories.xml'))
-print filedir
-file = open(filedir, 'r').read()
 
 
+"""
+filedir2 = os.oath.abspath(os.path.join(curdir, 'templates/Offices.xml'))
+file2 = open(filedir, 'r').read()
 
+filedir3 = os.path.abspath(os.path.join(curdir, 'templates/Procedures.xml'))
+file3 = open(filedir3, 'r').read()
+"""
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -38,14 +41,26 @@ class HomeHandler(webapp2.RequestHandler):
 
 class Category_Data(webapp2.RequestHandler):
     def get(self):
+        filedir = os.path.abspath(os.path.join(curdir, 'templates/Categories.xml'))
+        print filedir
+        file = open(filedir, 'r').read()
+
         self.response.headers['Content-Type'] = 'text/xml'
         self.response.write(file)
 
+class Office_Data(webapp2.RequestHandler):
+    def get(self):
+        filedir = os.path.abspath(os.path.join(curdir, 'templates/Offices.xml'))
+        print filedir
+        file = open(filedir, 'r').read()
+        self.response.headers['Content-Type'] = 'text/xml'
+        self.response.write(file)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/home', HomeHandler),
     ('/catData', Category_Data),
+    ('/officeData', Office_Data),
 ], debug=True)
 
 
