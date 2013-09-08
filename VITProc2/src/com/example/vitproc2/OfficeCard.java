@@ -1,7 +1,6 @@
 package com.example.vitproc2;
 
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -9,19 +8,19 @@ import android.widget.TextView;
 
 import com.fima.cardsui.objects.Card;
 
-public class MyCard extends Card {
+public class OfficeCard extends Card {
 	private String Title;
 	private Context Context;
 	private String Timings;
 	private String Location;
 	private OfficeObjects Office;
-	public MyCard(String mTitle,Context context)
+	public OfficeCard(String mTitle,Context context)
 	{
 		super(mTitle);
 		Title = mTitle;
 		Context = context;
 	}
-	public MyCard(OfficeObjects mOffice,Context mContext){
+	public OfficeCard(OfficeObjects mOffice,Context mContext){
 		Office = mOffice;
 		Title = Office.getOffice();
 		Location = Office.getLocation();

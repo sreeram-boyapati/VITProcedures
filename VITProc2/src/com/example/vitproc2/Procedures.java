@@ -2,10 +2,10 @@ package com.example.vitproc2;
 
 public class Procedures {
 		private String Query;
-		private String[] Procedures;
+		private String[] ProcedureSteps;
 		public Procedures(String mQuery,String[] mProcedures) {
 			Query = mQuery;
-			Procedures = mProcedures;	
+			ProcedureSteps = mProcedures;	
 		}
 		public String getQuery()
 		{
@@ -13,6 +13,6 @@ public class Procedures {
 		}
 		public String[] getProcedures()
 		{
-			return Procedures;
+			return ProcedureSteps;
 		}
 }

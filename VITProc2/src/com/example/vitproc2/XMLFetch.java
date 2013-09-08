@@ -11,9 +11,6 @@ import android.os.AsyncTask;
 public class XMLFetch extends AsyncTask<String, Void, String[]>
 {
 	private String[] Categories;
-	private XMLParser Parser;
-	private String temp;
-	private char[] buf;
 	ArrayList<String> al = new ArrayList<String>();
 	@Override
 	protected String[] doInBackground(String... URL) {

@@ -6,5 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">Choose a Category</string>
     <string name="drawer_close">Open the Drawer</string>
+    <string name="title_activity_office">OfficeActivity</string>
 
 </resources>

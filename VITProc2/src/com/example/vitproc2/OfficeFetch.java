@@ -9,6 +9,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Xml;
 
 
@@ -21,9 +22,9 @@ public class OfficeFetch extends AsyncTask<String, Void, ArrayList<OfficeObjects
 		
 			try{
 				XmlPullParser parser = Xml.newPullParser();
-				String url = args[0];
-				java.net.URL conn = new URL(url);
+				java.net.URL conn = new URL("http://practiceapp911.appspot.com/officeData");
 				parser.setInput(in = conn.openStream(), "UTF-8");
+				parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
 				parser.nextTag();
 				return getOffice(parser);
 				
@@ -44,10 +45,10 @@ public class OfficeFetch extends AsyncTask<String, Void, ArrayList<OfficeObjects
 	
 	private ArrayList<OfficeObjects> getOffice(XmlPullParser parser) throws XmlPullParserException, IOException{
 		office_details =new ArrayList<OfficeObjects>();
-		parser.require(parser.START_TAG, null, "Offices");
-		int eventType = parser.getEventType();
-		while(eventType != parser.END_TAG){
-			if(eventType != parser.START_TAG){
+		parser.require(XmlPullParser.START_TAG, null, "Offices");
+		Log.d("asd",parser.getName());
+		while(parser.next() != XmlPullParser.END_TAG){
+			if(parser.getEventType() != XmlPullParser.START_TAG){
 				continue;
 			}
 			if(parser.getName().equals("Office")){
@@ -55,6 +56,7 @@ public class OfficeFetch extends AsyncTask<String, Void, ArrayList<OfficeObjects
 				office_details.add(office);
 			}
 			else{
+				Log.d("adsad",parser.getName());
 				skip(parser);
 			}
 			
@@ -68,10 +70,9 @@ public class OfficeFetch extends AsyncTask<String, Void, ArrayList<OfficeObjects
 	
 	private OfficeObjects readOffice(XmlPullParser parser) throws XmlPullParserException, IOException {
 		OfficeObjects office=new OfficeObjects();
-		parser.require(parser.START_TAG, null, "Office");
-		int eventType=parser.getEventType();
-		while(eventType != parser.END_TAG){
-			if(eventType != parser.START_TAG){
+		parser.require(XmlPullParser.START_TAG, null, "Office");
+		while(parser.next() != XmlPullParser.END_TAG){
+			if(parser.getEventType() != XmlPullParser.START_TAG){
 				continue;
 			}
 			String name = parser.getName();
@@ -79,7 +80,7 @@ public class OfficeFetch extends AsyncTask<String, Void, ArrayList<OfficeObjects
 				office.setOffice(readOfficeHeader(parser));
 			}
 			else if(name.equals("Timings")){
-				office.setOffice(readTimings(parser));
+				office.setTimings(readTimings(parser));
 			}
 			else if(name.equals("Location")){
 				office.setLocation(readLocation(parser));
@@ -97,26 +98,26 @@ public class OfficeFetch extends AsyncTask<String, Void, ArrayList<OfficeObjects
 	
 	private String readOfficeHeader(XmlPullParser parser) throws XmlPullParserException, IOException{
 		String Office_Name;
-		parser.require(parser.START_TAG, null, "Name");
+		parser.require(XmlPullParser.START_TAG, null, "Name");
 		Office_Name = readText(parser);
-		parser.require(parser.END_TAG, null, "Name");
+		parser.require(XmlPullParser.END_TAG, null, "Name");
 		return Office_Name;
 	}
 	
 	private String readTimings(XmlPullParser parser) throws XmlPullParserException, IOException{
-		String Office_Name;
-		parser.require(parser.START_TAG, null, "Timings");
-		Office_Name = readText(parser);
-		parser.require(parser.END_TAG, null, "Timings");
-		return Office_Name;
+		String Timings;
+		parser.require(XmlPullParser.START_TAG, null, "Timings");
+		Timings = readText(parser);
+		parser.require(XmlPullParser.END_TAG, null, "Timings");
+		return Timings;
 	}
 	
 	private String readLocation(XmlPullParser parser) throws XmlPullParserException, IOException{
-		String Office_Name;
-		parser.require(parser.START_TAG, null, "Location");
-		Office_Name = readText(parser);
-		parser.require(parser.END_TAG, null, "Location");
-		return Office_Name;
+		String Location;
+		parser.require(XmlPullParser.START_TAG, null, "Location");
+		Location = readText(parser);
+		parser.require(XmlPullParser.END_TAG, null, "Location");
+		return Location;
 	}
 	
 	private String readText(XmlPullParser parser) throws XmlPullParserException, IOException{
