@@ -9,7 +9,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Xml;
 
 
@@ -46,7 +45,6 @@ public class OfficeFetch extends AsyncTask<String, Void, ArrayList<OfficeObjects
 	private ArrayList<OfficeObjects> getOffice(XmlPullParser parser) throws XmlPullParserException, IOException{
 		office_details =new ArrayList<OfficeObjects>();
 		parser.require(XmlPullParser.START_TAG, null, "Offices");
-		Log.d("asd",parser.getName());
 		while(parser.next() != XmlPullParser.END_TAG){
 			if(parser.getEventType() != XmlPullParser.START_TAG){
 				continue;
@@ -56,7 +54,6 @@ public class OfficeFetch extends AsyncTask<String, Void, ArrayList<OfficeObjects
 				office_details.add(office);
 			}
 			else{
-				Log.d("adsad",parser.getName());
 				skip(parser);
 			}
 			

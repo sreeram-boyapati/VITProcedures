@@ -21,23 +21,18 @@ curdir = os.getcwd()
 
 
 
-"""
-filedir2 = os.oath.abspath(os.path.join(curdir, 'templates/Offices.xml'))
-file2 = open(filedir, 'r').read()
-
-filedir3 = os.path.abspath(os.path.join(curdir, 'templates/Procedures.xml'))
-file3 = open(filedir3, 'r').read()
-"""
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('Hello world!')
 
+
 class HomeHandler(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write("<h1>Hey this is my homepage</h1>")
+
 
 class Category_Data(webapp2.RequestHandler):
     def get(self):
@@ -48,9 +43,18 @@ class Category_Data(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/xml'
         self.response.write(file)
 
+
 class Office_Data(webapp2.RequestHandler):
     def get(self):
         filedir = os.path.abspath(os.path.join(curdir, 'templates/Offices.xml'))
+        print filedir
+        file = open(filedir, 'r').read()
+        self.response.headers['Content-Type'] = 'text/xml'
+        self.response.write(file)
+
+class Proc_Data(webapp2.RequestHandler):
+    def get(self):
+        filedir = os.path.abspath(os.path.join(curdir, 'templates/Procedures.xml'))
         print filedir
         file = open(filedir, 'r').read()
         self.response.headers['Content-Type'] = 'text/xml'
@@ -61,6 +65,7 @@ app = webapp2.WSGIApplication([
     ('/home', HomeHandler),
     ('/catData', Category_Data),
     ('/officeData', Office_Data),
+    ('/procData',Proc_Data),
 ], debug=True)
 
 

@@ -7,14 +7,15 @@ public class OfficeObjects {
 	private String Office;
 	private String Timings;
 	private String Location;
-	private ArrayList<Procedures> Procedures;
+	private ArrayList<ProcedureObjects> Procedures;
 	public OfficeObjects(){
-		
+		Procedures = new ArrayList<ProcedureObjects>();
 	}
 	public OfficeObjects(String mOffice,String mTimings,String mLocation){
 		Office = mOffice;
 		Timings = mTimings;
 		Location = mLocation;
+		Procedures = new ArrayList<ProcedureObjects>();
 	}
 	public String getOffice() {
 		return Office;
@@ -40,11 +41,11 @@ public class OfficeObjects {
 		return Timings;
 	}
 	
-	public void addProcedure(Procedures mProcedure){
+	public void addProcedure(ProcedureObjects mProcedure){
 		Procedures.add(mProcedure);
 	}
 	
-	public ArrayList<Procedures> getallProcedures(){
+	public ArrayList<ProcedureObjects> getallProcedures(){
 		return Procedures;
 	}
 }

@@ -3,12 +3,10 @@ package com.example.vitproc2;
 
 import java.util.ArrayList;
 
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -19,10 +17,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-
 
 import com.fima.cardsui.views.CardUI;
 
@@ -32,7 +29,9 @@ public class MainActivity extends Activity {
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private CardUI CardView;
+	private MyCard Office_Card;
 	private static ArrayList<OfficeObjects> Office_Objects;
+	public static ArrayList<ProcedureObjects> Procedure_Objects;
 	private static final String Cat_URL="http://practiceapp911@appspot.com/catData";
 	@SuppressLint("NewApi")
 	@Override
@@ -89,43 +88,80 @@ public class MainActivity extends Activity {
 
 			});
 		Office_Objects = new OfficeFetch().doInBackground("http://www.practiceapp911.appspot.com/officeData");
+		Procedure_Objects = new ProcedureFetch().doInBackground("http://practiceapp911.appspot.com/procData"); 
+		link_office_proc();
 		CardView = (CardUI)findViewById(R.id.cardsview);
 		CardView.setSwipeable(false);
+		
 		for(int i = 0; i < Office_Objects.size(); i++){
 			OfficeObjects Office =(OfficeObjects) Office_Objects.get(i);
-			CardView.addCard(new MyCard(Office,getApplicationContext()));
-			
-		}
-		CardView.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				TextView v=(TextView)arg0.findViewById(R.id.Timings);
-				int i=getItemPosition(v.getText());
-				if( i != -1){
-					Intent intent = new Intent();
-					intent.putExtra("Item", i);
-					
+			Office_Card = new MyCard(Office,getApplicationContext());
+			Office_Card.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					TextView v=(TextView)arg0.findViewById(R.id.Officetitle);
+					int i=getItemPosition(v.getText());
+					if( i != -1){
+						try{
+							Intent intent = new Intent(MainActivity.this, OfficeActivity.class);
+							intent.putExtra("Item", v.getText());
+							MainActivity.this.startActivity(intent);
+						}
+						catch(Exception e){
+							e.printStackTrace();
+						}
+					}
 				}
-			}
-		});
+			});
+			CardView.addCard(Office_Card);
+		}
+		
+		
 	    CardView.refresh();
 
 	}
-	private int getItemPosition(CharSequence text1){
+	
+	public static int getItemPosition(CharSequence text1){
 		String text = (String)text1;
 		int i;
 		for(i=0; i < Office_Objects.size(); i++){
-			if(Office_Objects.get(i).getTimings().equals(text)){
+			if(Office_Objects.get(i).getOffice().equals(text)){
 				return i;
 			}
 		}
 		return -1;
 	}
+	
 	public static OfficeObjects getOfficeList(int i){
 		return Office_Objects.get(i);
 	}
+	
+	private void link_office_proc() {
+		try{
+		for(int i = 0; i < Procedure_Objects.size(); i++){
+			ProcedureObjects procedure = Procedure_Objects.get(i);
+			String Office_Name = procedure.getOffice();
+			Office_Name = Office_Name.replaceAll("\\s", "");
+			for(int j = 0; j < Office_Objects.size(); j++){
+				OfficeObjects office = Office_Objects.get(j);
+				String off_office = office.getOffice();
+				off_office = off_office.replaceAll("\\s+", "");
+				if(Office_Name.equals(off_office))
+				{
+					Office_Objects.get(j).addProcedure(procedure);
+					break;
+				}
+			}
+		}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

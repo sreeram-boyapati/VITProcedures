@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/proctitle"
+    android:textColor="#7e7e7e"
+    android:paddingLeft="8dip"
+    android:paddingTop="2dip"
+    android:paddingBottom="2dip"
+    android:typeface="serif"
+    android:ellipsize="end"
+    android:maxLines="3"/>
+

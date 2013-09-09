@@ -2,28 +2,41 @@ package com.example.vitproc2;
 
 import com.fima.cardsui.views.CardUI;
 
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
 
-public class OfficeActivity extends Activity {
+public class OfficeActivity extends FragmentActivity {
 	private CardUI CardView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		Toast.makeText(getApplicationContext(), "Event Successful", Toast.LENGTH_SHORT).show();
+		setContentView(R.layout.activity_office);
 		InitializeUI();
 		
 	}
 	private void InitializeUI(){
-		Intent intent = getIntent();
-		int i=intent.getIntExtra("Item", 0);
-		OfficeObjects office = MainActivity.getOfficeList(i); 
-		CardView.addCard(new OfficeCard(office,getApplicationContext()));
+		try{
+			Intent intent = getIntent();
+			String text=intent.getStringExtra("Item");
+			Integer i = MainActivity.getItemPosition(text);
+			OfficeObjects office = MainActivity.getOfficeList(i);
+			CardView = (CardUI) findViewById(R.id.cardsview_office);
+			if(i != -1){
+				CardView.addCard(new OfficeCard(office,getApplicationContext()));
+				CardView.addCard(new Procedure_Card(office, getApplicationContext(), this));
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		CardView.refresh();
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

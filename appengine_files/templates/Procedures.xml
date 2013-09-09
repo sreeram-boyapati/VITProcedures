@@ -10,6 +10,8 @@
 		<Procedure>
 			<Office>Director Academics</Office>
 			<Query>Permission to renew attendance</Query>
+            <Freshers>No</Freshers>
+            <Clubs>Yes</Clubs>
 			<Proc>cvxbcvbvcbsdfwerq</Proc>
             <Proc>Go wait for 100 days</Proc>
             <Proc>You are lucky if he did not have his period that day you problem may get solved</Proc>
@@ -18,6 +20,8 @@
 		<Procedure>
 			<Office>Controller of Examinations</Office>
 			<Query>Apply for a new hall ticket</Query>
+            <Freshers>Yes</Freshers>
+            <Clubs>Yes</Clubs>
 			<Proc>mnnbcdwert</Proc>
 		</Procedure>
 	</Procedures>
