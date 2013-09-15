@@ -10,6 +10,9 @@ etc.
 Data is stored in form of xml documents.
 
 What needs to be done:
-  Parsing of XML docs and storing data locally in a folder depending on the version of xml.
-  
+  Add HelpDesk.
+  Add Dialog View for each query at Office.
+  Add Search Interface for all query.
+  Add Caching and exception handler for no internet connection.
+  Add Event Handlers in navigation drawer.
   
