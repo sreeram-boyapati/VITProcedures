@@ -47,4 +47,21 @@ public class ProcedureObjects {
 		public void setOffice(String mOffice){
 			Office = mOffice;
 		}
+		public boolean getFreshers(){
+			if(Freshers.equals("Yes")){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		public boolean getClubs(){
+			if(Clubs.equals("Yes")){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		
 }

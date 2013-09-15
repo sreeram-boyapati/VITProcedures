@@ -18,7 +18,7 @@ import android.widget.Toast;
 /**
  * Created by sreeram on 6/14/13.
  */
-public class ProcedureDialog extends DialogFragment implements Parcelable{
+public class ProcedureDialog extends DialogFragment {
 
 	private ProcedureObjects Proc;
     private Activity act;
@@ -54,14 +54,4 @@ public class ProcedureDialog extends DialogFragment implements Parcelable{
         View v1=(View)inflater.inflate(R.layout.procedure_dialog, null);
         return v1;
     }
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public void writeToParcel(Parcel arg0, int arg1) {
-		// TODO Auto-generated method stub
-		
-	}
 }

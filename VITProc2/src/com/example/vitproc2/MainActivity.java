@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,11 +16,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 
 import com.fima.cardsui.views.CardUI;
+
 
 public class MainActivity extends Activity {
 	private String[] Categories;
@@ -79,11 +78,18 @@ public class MainActivity extends Activity {
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
 					// TODO Auto-generated method stub
-					String cat = (String) mDrawerList
+					String cat =  (String) mDrawerList
 							.getItemAtPosition(arg2);
-					Intent intent = new Intent();
-					intent.putExtra("Cateory", cat);
-
+					
+					if(cat.equals("Freshers")){
+						Intent intent = new Intent(MainActivity.this, FresherProcActivity.class);
+						MainActivity.this.startActivity(intent);
+					}
+					if(cat.equals("For Clubs and Chapters"))
+					{
+						Intent intent = new Intent(MainActivity.this, ClubsActivity.class);
+						MainActivity.this.startActivity(intent);
+					}
 				}
 
 			});
@@ -117,10 +123,8 @@ public class MainActivity extends Activity {
 			});
 			CardView.addCard(Office_Card);
 		}
-		
-		
 	    CardView.refresh();
-
+	    
 	}
 	
 	public static int getItemPosition(CharSequence text1){

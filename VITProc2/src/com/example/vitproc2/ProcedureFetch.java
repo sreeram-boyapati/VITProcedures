@@ -1,6 +1,7 @@
 package com.example.vitproc2;
 
 import java.io.IOException;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -9,7 +10,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Xml;
 
 

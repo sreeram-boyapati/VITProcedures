@@ -3,18 +3,7 @@ package com.example.vitproc2;
 import java.util.ArrayList;
 
 
-
-
-
-
-
-
-
-
-
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -34,9 +23,21 @@ public class Procedure_Card extends Card {
 	private String[] Procedure_Titles;
 	private Context Context;
 	private FragmentActivity act;
+	private String Title;
 	public Procedure_Card(String mTitle,Context context)
 	{
 		super(mTitle);
+	}
+	public Procedure_Card(Context mContext, String Category){
+		Context = mContext;
+		if(Category.equals("Freshers")){
+			getCategoryTitles("Freshers");
+			Title = "Fresher Procedures";
+		}
+		else if(Category.equals("Clubs")){
+			getCategoryTitles("Clubs");
+			Title = "Club Procedures";
+		}
 	}
 	
 	public Procedure_Card(OfficeObjects mOffice,Context mContext,FragmentActivity a){
@@ -48,6 +49,31 @@ public class Procedure_Card extends Card {
 		getTitles();
 	}
 	
+	private void getCategoryTitles(String Category){
+		ArrayList<ProcedureObjects> catefory_proc= MainActivity.Procedure_Objects;
+		ArrayList<String> Category_Queries = new ArrayList<String>() ;
+		for (int i = 0; i < catefory_proc.size(); i++){
+			ProcedureObjects procObject = catefory_proc.get(i);
+			if(Category.equals("Freshers")){
+				
+				
+				if(procObject.getFreshers()){
+					Category_Queries.add(procObject.getQuery());
+				}
+			}
+			else if(Category.equals("Clubs")){
+				
+				if(procObject.getClubs()){
+					Category_Queries.add(procObject.getQuery());
+				}
+			}
+			
+		}
+		Procedure_Titles = new String[Category_Queries.size()];
+		Procedure_Titles = Category_Queries.toArray(Procedure_Titles);
+		
+	}
+	
 	private void getTitles(){
 		ArrayList<String> Proc_Titles=new ArrayList<String>();
 		for (int i = 0; i< Procedures.size(); i++){
@@ -55,6 +81,7 @@ public class Procedure_Card extends Card {
 		}
 		Procedure_Titles = new String[Proc_Titles.size()];
 		Procedure_Titles = Proc_Titles.toArray(Procedure_Titles);
+		Title = "Procedures";
 	}
 	
 	@Override
@@ -62,7 +89,7 @@ public class Procedure_Card extends Card {
 		// TODO Auto-generated method stub
 		View v = LayoutInflater.from(Context).inflate(R.layout.procedures_card, null);
 		TextView lTitle = (TextView)v.findViewById(R.id.Proceduretitle);
-		lTitle.setText("Procedures");
+		lTitle.setText(Title);
 		lv = (ListView)v.findViewById(R.id.proc_list);
 		lv.setAdapter(new ArrayAdapter<String>(Context, R.layout.proc_title, Procedure_Titles));
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,7 +100,7 @@ public class Procedure_Card extends Card {
 				// TODO Auto-generated method stub
 				String proc_step = (String)lv.getItemAtPosition(arg2);
 				ProcedureObjects object = getObject(proc_step);
-				if(object != null){
+				/*if(object != null){
 					FragmentManager fm = act.getSupportFragmentManager();
 					
 					
@@ -81,7 +108,7 @@ public class Procedure_Card extends Card {
 				}
 				else{
 					Log.d("Null Reference", "Accessed a null bitch");
-				}
+				}*/
 			}
 
 		});

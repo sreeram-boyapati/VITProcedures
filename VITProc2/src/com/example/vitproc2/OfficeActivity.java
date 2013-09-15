@@ -2,14 +2,11 @@ package com.example.vitproc2;
 
 import com.fima.cardsui.views.CardUI;
 
-
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
-import android.widget.Toast;
+
 
 public class OfficeActivity extends FragmentActivity {
 	private CardUI CardView;

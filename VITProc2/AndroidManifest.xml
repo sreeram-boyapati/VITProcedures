@@ -26,6 +26,14 @@
             android:name="com.example.vitproc2.OfficeActivity"
             android:label="@string/title_activity_office" >
         </activity>
+        <activity
+            android:name="com.example.vitproc2.FresherProcActivity"
+            android:label="@string/title_activity_fresher_proc" >
+        </activity>
+        <activity
+            android:name="com.example.vitproc2.ClubsActivity"
+            android:label="@string/title_activity_clubs" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
