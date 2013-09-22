@@ -1,5 +1,6 @@
 package com.example.vitproc2;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -14,14 +15,15 @@ public class XMLFetch extends AsyncTask<String, Void, String[]>
 	ArrayList<String> al = new ArrayList<String>();
 	@Override
 	protected String[] doInBackground(String... URL) {
+		InputStream in;
 		try{
 			
 				java.net.URL conn=new URL("http://www.practiceapp911.appspot.com/catData");
 				XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 				factory.setNamespaceAware(false);
 				XmlPullParser xpp = factory.newPullParser();
-				
-				xpp.setInput(conn.openStream(), "UTF-8");
+				in = conn.openStream();
+				xpp.setInput(in, "UTF-8");
 				int eventType=xpp.getEventType();
 				while(eventType != XmlPullParser.END_DOCUMENT)
 				{		
@@ -35,14 +37,25 @@ public class XMLFetch extends AsyncTask<String, Void, String[]>
 				
 				Categories=new String[al.size()];
 				Categories=al.toArray(Categories);
+				in.close();
 	 		}
-	catch(Exception e)
-	{
-		e.printStackTrace();
-	}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		// TODO Auto-generated method stub
 		return Categories;
+	
+		
 	}
+	@Override
+	protected void onPostExecute(String[] result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+		AppObjects AppInstance = AppObjects.getInstance();
+		AppObjects.Categories = result;
+	}
+	
 	
 
 }

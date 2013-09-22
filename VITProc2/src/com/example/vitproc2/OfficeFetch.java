@@ -15,6 +15,7 @@ import android.util.Xml;
 public class OfficeFetch extends AsyncTask<String, Void, ArrayList<OfficeObjects>>{
 	public ArrayList<OfficeObjects> office_details;
 	private InputStream in;
+	private AppObjects AppInstance;
 	
 	@Override
 	protected ArrayList<OfficeObjects> doInBackground(String... args) {
@@ -42,6 +43,17 @@ public class OfficeFetch extends AsyncTask<String, Void, ArrayList<OfficeObjects
 			return office_details;
 		}
 	
+	
+	@Override
+	protected void onPostExecute(ArrayList<OfficeObjects> result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+		AppInstance = AppObjects.getInstance();
+		AppObjects.Office_Objects = result;
+		
+	}
+
+
 	private ArrayList<OfficeObjects> getOffice(XmlPullParser parser) throws XmlPullParserException, IOException{
 		office_details =new ArrayList<OfficeObjects>();
 		parser.require(XmlPullParser.START_TAG, null, "Offices");

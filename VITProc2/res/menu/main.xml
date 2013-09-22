@@ -14,8 +14,13 @@
     <item
    	    android:id="@+id/Aboutme"
    	    android:showAsAction="never"
-   	    android:orderInCategory="99"
+   	    android:orderInCategory="98"
    	    android:title="About App"/>
+   	<item 
+   	    android:id = "@+id/helpSupport"
+   	    android:showAsAction="never"
+   	    android:orderInCategory="99"
+   	    android:title="Report Issue"/>
    	
    
 

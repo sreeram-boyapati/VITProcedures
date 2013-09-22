@@ -3,6 +3,7 @@ package com.example.vitproc2;
 import com.fima.cardsui.views.CardUI;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -10,11 +11,14 @@ import android.view.Menu;
 
 public class OfficeActivity extends FragmentActivity {
 	private CardUI CardView;
+	private AppObjects AppInstance;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_office);
+		AppInstance = AppObjects.getInstance();
 		InitializeUI();
 		
 	}
@@ -22,8 +26,8 @@ public class OfficeActivity extends FragmentActivity {
 		try{
 			Intent intent = getIntent();
 			String text=intent.getStringExtra("Item");
-			Integer i = MainActivity.getItemPosition(text);
-			OfficeObjects office = MainActivity.getOfficeList(i);
+			Integer i = AppObjects.getItemPosition(text);
+			OfficeObjects office = AppInstance.getOfficeList(i);
 			CardView = (CardUI) findViewById(R.id.cardsview_office);
 			if(i != -1){
 				CardView.addCard(new OfficeCard(office,getApplicationContext()));

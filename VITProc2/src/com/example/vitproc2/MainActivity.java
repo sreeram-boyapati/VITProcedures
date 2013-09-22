@@ -1,7 +1,6 @@
 package com.example.vitproc2;
 
 
-import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,6 +9,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -20,22 +20,24 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 
 import com.fima.cardsui.views.CardUI;
+import com.helpshift.Helpshift;
 
 
 public class MainActivity extends Activity {
-	private String[] Categories;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private CardUI CardView;
 	private MyCard Office_Card;
-	private static ArrayList<OfficeObjects> Office_Objects;
-	public static ArrayList<ProcedureObjects> Procedure_Objects;
-	private static final String Cat_URL="http://practiceapp911@appspot.com/catData";
+	public AppObjects myApp;
+	
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		myApp = (AppObjects)getApplication();
+		final Helpshift hs = myApp.hs;
+		hs.install(this, "42c5d263bf28926bd20fd5516c1bf35d", "vitprocedures.helpshift.com", "vitprocedures_platform_20130922063912082-f987f1fe1685515");
 		setContentView(R.layout.activity_main);
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy); 
@@ -67,11 +69,12 @@ public class MainActivity extends Activity {
 				invalidateOptionsMenu();
 			}
 		};
+	
+		
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		Categories=new XMLFetch().doInBackground(Cat_URL);
 		// Populate Drawer Layout with Lists.
 		mDrawerList.setAdapter(new ArrayAdapter<String>(
-							getApplicationContext(), R.layout.drawerlistitem, Categories));
+							getApplicationContext(), R.layout.drawerlistitem, AppObjects.Categories));
 		mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 				@Override
@@ -93,22 +96,20 @@ public class MainActivity extends Activity {
 				}
 
 			});
-		Office_Objects = new OfficeFetch().doInBackground("http://www.practiceapp911.appspot.com/officeData");
-		Procedure_Objects = new ProcedureFetch().doInBackground("http://practiceapp911.appspot.com/procData"); 
-		link_office_proc();
+		
 		CardView = (CardUI)findViewById(R.id.cardsview);
 		CardView.setSwipeable(false);
 		
-		for(int i = 0; i < Office_Objects.size(); i++){
-			OfficeObjects Office =(OfficeObjects) Office_Objects.get(i);
+		for(int i = 0; i < AppObjects.Office_Objects.size(); i++){
+			OfficeObjects Office =(OfficeObjects) AppObjects.Office_Objects.get(i);
 			Office_Card = new MyCard(Office,getApplicationContext());
 			Office_Card.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
-					TextView v=(TextView)arg0.findViewById(R.id.Officetitle);
-					int i=getItemPosition(v.getText());
+					TextView v = (TextView)arg0.findViewById(R.id.Officetitle);
+					int i = AppObjects.getItemPosition(v.getText());
 					if( i != -1){
 						try{
 							Intent intent = new Intent(MainActivity.this, OfficeActivity.class);
@@ -127,43 +128,14 @@ public class MainActivity extends Activity {
 	    
 	}
 	
-	public static int getItemPosition(CharSequence text1){
-		String text = (String)text1;
-		int i;
-		for(i=0; i < Office_Objects.size(); i++){
-			if(Office_Objects.get(i).getOffice().equals(text)){
-				return i;
-			}
-		}
-		return -1;
-	}
 	
-	public static OfficeObjects getOfficeList(int i){
-		return Office_Objects.get(i);
-	}
 	
-	private void link_office_proc() {
-		try{
-		for(int i = 0; i < Procedure_Objects.size(); i++){
-			ProcedureObjects procedure = Procedure_Objects.get(i);
-			String Office_Name = procedure.getOffice();
-			Office_Name = Office_Name.replaceAll("\\s", "");
-			for(int j = 0; j < Office_Objects.size(); j++){
-				OfficeObjects office = Office_Objects.get(j);
-				String off_office = office.getOffice();
-				off_office = off_office.replaceAll("\\s+", "");
-				if(Office_Name.equals(off_office))
-				{
-					Office_Objects.get(j).addProcedure(procedure);
-					break;
-				}
-			}
-		}
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+	
+	
+	public static boolean tryCache(){
 		
+		
+		return false;
 	}
 	
 	
@@ -171,7 +143,20 @@ public class MainActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		View v = findViewById(R.menu.main);
 		return true;
+	}
+
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		// TODO Auto-generated method stub
+		switch(item.getItemId()){
+		case R.id.helpSupport:
+			final Helpshift hs = myApp.hs;
+			 hs.showSupport(MainActivity.this);
+		}
+		return super.onMenuItemSelected(featureId, item);
 	}
 
 	/* Called whenever we call invalidateOptionsMenu() */
@@ -184,6 +169,7 @@ public class MainActivity extends Activity {
 		return super.onPrepareOptionsMenu(menu);
 	}
 
+	
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -191,12 +177,14 @@ public class MainActivity extends Activity {
 		mDrawerToggle.syncState();
 	}
 
+	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
-
+	
+	
 	@Override
 	public boolean onOptionsItemSelected(android.view.MenuItem item) {
 		// Pass the event to ActionBarDrawerToggle, if it returns

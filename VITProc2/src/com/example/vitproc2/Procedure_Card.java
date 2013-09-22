@@ -24,12 +24,14 @@ public class Procedure_Card extends Card {
 	private Context Context;
 	private FragmentActivity act;
 	private String Title;
+	private AppObjects AppInstance;
 	public Procedure_Card(String mTitle,Context context)
 	{
 		super(mTitle);
 	}
 	public Procedure_Card(Context mContext, String Category){
 		Context = mContext;
+		AppInstance = AppObjects.getInstance();
 		if(Category.equals("Freshers")){
 			getCategoryTitles("Freshers");
 			Title = "Fresher Procedures";
@@ -38,6 +40,7 @@ public class Procedure_Card extends Card {
 			getCategoryTitles("Clubs");
 			Title = "Club Procedures";
 		}
+		
 	}
 	
 	public Procedure_Card(OfficeObjects mOffice,Context mContext,FragmentActivity a){
@@ -50,7 +53,7 @@ public class Procedure_Card extends Card {
 	}
 	
 	private void getCategoryTitles(String Category){
-		ArrayList<ProcedureObjects> catefory_proc= MainActivity.Procedure_Objects;
+		ArrayList<ProcedureObjects> catefory_proc= AppInstance.Procedure_Objects;
 		ArrayList<String> Category_Queries = new ArrayList<String>() ;
 		for (int i = 0; i < catefory_proc.size(); i++){
 			ProcedureObjects procObject = catefory_proc.get(i);
@@ -115,7 +118,7 @@ public class Procedure_Card extends Card {
 		return v;
 	}
 	private ProcedureObjects getObject(String proc_name){
-		ArrayList<ProcedureObjects> Procedures = MainActivity.Procedure_Objects;
+		ArrayList<ProcedureObjects> Procedures = AppObjects.Procedure_Objects;
 		int u = 0;
 		for (int i = 0; i < Procedures.size(); i++){
 			if(Procedures.get(i).getQuery().equals(proc_name))

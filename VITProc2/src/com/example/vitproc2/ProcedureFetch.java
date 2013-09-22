@@ -1,7 +1,6 @@
 package com.example.vitproc2;
 
 import java.io.IOException;
-
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,13 +9,14 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Xml;
 
 
 public class ProcedureFetch extends AsyncTask<String, Void, ArrayList<ProcedureObjects>>{
 	public ArrayList<ProcedureObjects> Procedure_details;
 	private InputStream in;
-	
+	private AppObjects AppInstance;
 	@Override
 	protected ArrayList<ProcedureObjects> doInBackground(String... args) {
 		
@@ -38,10 +38,24 @@ public class ProcedureFetch extends AsyncTask<String, Void, ArrayList<ProcedureO
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}		}
+				}		
+			}
 			return Procedure_details;
 		}
 	
+	
+	
+	@Override
+	protected void onPostExecute(ArrayList<ProcedureObjects> result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+		AppInstance = AppObjects.getInstance();
+		AppObjects.Procedure_Objects = result;
+		
+	}
+
+
+
 	private ArrayList<ProcedureObjects> getprocedure(XmlPullParser parser) throws XmlPullParserException, IOException{
 		Procedure_details =new ArrayList<ProcedureObjects>();
 		parser.require(XmlPullParser.START_TAG, null, "Procedures");

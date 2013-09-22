@@ -7,12 +7,16 @@
     <uses-sdk
         android:minSdkVersion="12"
         android:targetSdkVersion="18" />
-
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name = "com.example.vitproc2.AppObjects" >
+        <service android:name="com.helpshift.HSService"
+               android:label="Helpshift Service" >
+		</service>
         <activity
             android:name="com.example.vitproc2.MainActivity"
             android:label="@string/app_name" >
@@ -34,8 +38,36 @@
             android:name="com.example.vitproc2.ClubsActivity"
             android:label="@string/title_activity_clubs" >
         </activity>
+       	<activity android:name="com.helpshift.HelpshiftActivity"
+        	android:configChanges="orientation|screenSize"
+          	android:theme="@style/HSThemeLight" />
+		<activity android:name="com.helpshift.HSAddIssue"
+          	android:theme="@style/HSThemeLight"/>
+		<activity android:name="com.helpshift.HSAddProfile"
+            android:theme="@style/HSThemeLight" />
+		<activity android:name="com.helpshift.HSMessages"
+            android:theme="@style/HSThemeLight" />
+		<activity android:name="com.helpshift.HSQuestionsList"
+            android:theme="@style/HSThemeLight" />
+		<activity android:name="com.helpshift.HSQuestion"
+          android:hardwareAccelerated="true"
+          android:configChanges="orientation|screenSize"
+          android:theme="@style/HSThemeLight" />
+		<activity android:name="com.helpshift.HSSection"
+          android:hardwareAccelerated="true"
+          android:configChanges="orientation|screenSize"
+          android:theme="@style/HSThemeLight" />
+		<activity android:name="com.helpshift.HSInbox"
+          android:hardwareAccelerated="true"
+          android:configChanges="orientation|screenSize"
+          android:theme="@style/HSThemeLight" />
+		<activity android:name="com.helpshift.HSFaqs"
+        	  android:hardwareAccelerated="true"
+          	  android:configChanges="orientation|screenSize"
+          	  android:theme="@style/HSThemeLight" />
     </application>
-
+	
+	
     <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
