@@ -44,6 +44,7 @@
             android:layout_marginLeft="8dp"
             android:ellipsize="end"
             android:maxLines="4"
+            android:textSize="16sp"
             android:text="Timings"/>
          <TextView
               android:id="@+id/Timings"
@@ -55,8 +56,8 @@
               android:layout_marginLeft="32dp"
               android:layout_toRightOf="@+id/Timings_label"
               android:ellipsize="end"
-              android:maxLines="4"
-              android:text="6pm=8pm" />
+              android:textSize="16dip"
+              android:maxLines="4" />
          <TextView
             android:id="@+id/Location_label"
             style="@style/CardText"
@@ -67,6 +68,7 @@
             android:layout_marginLeft="8dp"
             android:ellipsize="end"
             android:text="Location"
+            android:textSize="16dip"
             android:maxLines="4"/>
           <TextView
             android:id="@+id/Location"
@@ -76,8 +78,8 @@
             android:layout_alignBaseline="@id/Location_label"
             android:layout_marginLeft="32dp"
             android:layout_toRightOf="@id/Location_label"
-            android:text="SJT"
             android:ellipsize="end"
+            android:textSize="16dip"
             android:maxLines="4"/>
     </RelativeLayout>
 

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,24 +18,35 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 
+import com.example.fragments.ClubsFragment;
+import com.example.fragments.FresherProcFragment;
+import com.example.fragments.HomeFragment;
 import com.fima.cardsui.views.CardUI;
 import com.helpshift.Helpshift;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private CardUI CardView;
 	private MyCard Office_Card;
-	public AppObjects myApp;
+	private AppObjects myApp;
+	private AppObjects AppInstance;
+	private FragmentManager fm;
+	private FragmentTransaction ft;
 	
-	@SuppressLint("NewApi")
+	@SuppressLint({ "NewApi", "Recycle" })
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		AppInstance = AppObjects.getInstance();
 		myApp = (AppObjects)getApplication();
 		final Helpshift hs = myApp.hs;
 		hs.install(this, "42c5d263bf28926bd20fd5516c1bf35d", "vitprocedures.helpshift.com", "vitprocedures_platform_20130922063912082-f987f1fe1685515");
@@ -42,9 +54,8 @@ public class MainActivity extends Activity {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy); 
 		// Initializes the basic UI and mainPage
+		fm = getSupportFragmentManager();	
 		InitializeUI();
-		//
-	
 	
 	}
 	
@@ -74,7 +85,7 @@ public class MainActivity extends Activity {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		// Populate Drawer Layout with Lists.
 		mDrawerList.setAdapter(new ArrayAdapter<String>(
-							getApplicationContext(), R.layout.drawerlistitem, AppObjects.Categories));
+							getApplicationContext(), R.layout.drawerlistitem, AppInstance.Categories));
 		mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 				@Override
@@ -85,59 +96,44 @@ public class MainActivity extends Activity {
 							.getItemAtPosition(arg2);
 					
 					if(cat.equals("Freshers")){
-						Intent intent = new Intent(MainActivity.this, FresherProcActivity.class);
-						MainActivity.this.startActivity(intent);
+						FresherProcFragment freshers = new FresherProcFragment();
+						if(getSupportFragmentManager().getBackStackEntryCount() > 1){
+							getSupportFragmentManager().popBackStackImmediate();
+						}
+						ft = getSupportFragmentManager().beginTransaction().replace(R.id.mainFragment, freshers);
+						if(getSupportFragmentManager().getBackStackEntryCount() == 1){
+							ft.addToBackStack(null);
+						}
+						
+						ft.commit();
+						mDrawerLayout.closeDrawer(Gravity.LEFT);
 					}
 					if(cat.equals("For Clubs and Chapters"))
 					{
-						Intent intent = new Intent(MainActivity.this, ClubsActivity.class);
-						MainActivity.this.startActivity(intent);
+						
+						ClubsFragment clubs = new ClubsFragment();
+						if(getSupportFragmentManager().getBackStackEntryCount() > 1){
+							getSupportFragmentManager().popBackStackImmediate();
+						}
+						ft = getSupportFragmentManager().beginTransaction().replace(R.id.mainFragment, clubs);
+						if(getSupportFragmentManager().getBackStackEntryCount() == 1){
+							ft.addToBackStack(null);
+						}
+						ft.commit();
+						mDrawerLayout.closeDrawer(Gravity.LEFT);
 					}
 				}
 
 			});
-		
-		CardView = (CardUI)findViewById(R.id.cardsview);
-		CardView.setSwipeable(false);
-		
-		for(int i = 0; i < AppObjects.Office_Objects.size(); i++){
-			OfficeObjects Office =(OfficeObjects) AppObjects.Office_Objects.get(i);
-			Office_Card = new MyCard(Office,getApplicationContext());
-			Office_Card.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
-					TextView v = (TextView)arg0.findViewById(R.id.Officetitle);
-					int i = AppObjects.getItemPosition(v.getText());
-					if( i != -1){
-						try{
-							Intent intent = new Intent(MainActivity.this, OfficeActivity.class);
-							intent.putExtra("Item", v.getText());
-							MainActivity.this.startActivity(intent);
-						}
-						catch(Exception e){
-							e.printStackTrace();
-						}
-					}
-				}
-			});
-			CardView.addCard(Office_Card);
+		HomeFragment hm = new HomeFragment();
+		ft = fm.beginTransaction();
+		ft.add(R.id.mainFragment, hm);
+		if(getSupportFragmentManager().getBackStackEntryCount() == 0){
+			ft.addToBackStack(null);
 		}
-	    CardView.refresh();
+		ft.commit();
 	    
 	}
-	
-	
-	
-	
-	
-	public static boolean tryCache(){
-		
-		
-		return false;
-	}
-	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

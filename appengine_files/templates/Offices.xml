@@ -13,6 +13,16 @@
 	<Office>
 		<Name>Controller of Examinations</Name>
 		<Timings>6pm-8pm</Timings>
-		<Location>SMBS</Location>
+		<Location>SJT</Location>
 	</Office>
+    <Office>
+        <Name>Chief Warden</Name>
+        <Timings>6pm-8pm</Timings>
+        <Location>Hostel Office</Location>
+    </Office>
+    <Office>
+        <Name>Programme Chairs</Name>
+        <Timings>9am - 5pm</Timings>
+        <Location>School Office</Location>
+    </Office>
 </Offices>

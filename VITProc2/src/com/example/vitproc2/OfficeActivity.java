@@ -1,44 +1,31 @@
 package com.example.vitproc2;
 
-import com.fima.cardsui.views.CardUI;
+import com.example.fragments.OfficeFragment;
 
 import android.os.Bundle;
-import android.os.StrictMode;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 
-
 public class OfficeActivity extends FragmentActivity {
-	private CardUI CardView;
-	private AppObjects AppInstance;
-	
+	private FragmentTransaction ft;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_office);
-		AppInstance = AppObjects.getInstance();
-		InitializeUI();
-		
+		Intent intent = getIntent();
+		String office_title = intent.getStringExtra("office");
+		Bundle bundle = new Bundle();
+		bundle.putString("Office_Title", office_title);
+		OfficeFragment office= new OfficeFragment();
+		office.setArguments(bundle);
+		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction().add(R.id.office_fragview, office);
+		ft.commit();
 	}
-	private void InitializeUI(){
-		try{
-			Intent intent = getIntent();
-			String text=intent.getStringExtra("Item");
-			Integer i = AppObjects.getItemPosition(text);
-			OfficeObjects office = AppInstance.getOfficeList(i);
-			CardView = (CardUI) findViewById(R.id.cardsview_office);
-			if(i != -1){
-				CardView.addCard(new OfficeCard(office,getApplicationContext()));
-				CardView.addCard(new Procedure_Card(office, getApplicationContext(), this));
-			}
-		}
-		catch (Exception e){
-			e.printStackTrace();
-		}
-		CardView.refresh();
-	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

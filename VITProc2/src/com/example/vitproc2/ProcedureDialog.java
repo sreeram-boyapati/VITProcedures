@@ -9,9 +9,13 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,28 +25,32 @@ import android.widget.Toast;
 public class ProcedureDialog extends DialogFragment {
 
 	private ProcedureObjects Proc;
-    private Activity act;
+    private FragmentActivity act;
     private Context mContext;
     public ProcedureDialog()
     {
     	
     }
-    public static final ProcedureDialog newInstance(Activity mAct, ProcedureObjects mProc){
+    public static final ProcedureDialog newInstance(FragmentActivity mAct){
     	ProcedureDialog pd = new ProcedureDialog();
-    	Bundle bdl = new Bundle(3);
+    	
     	
     	return pd;
     }
 
     public static DialogFragment newInstance() {
         DialogFragment dialogFragment = new ProcedureDialog();
-
+        
         return dialogFragment;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        Bundle args = getArguments();
+        AppObjects AppInstance = AppObjects.getInstance();
+        String procQuery = args.getString("ProcQuery");
+        Proc = AppInstance.getProc(procQuery);
         builder.setTitle(Proc.getQuery());
         builder.setView(getContentView());
         Dialog dialog = builder.create();
@@ -50,8 +58,12 @@ public class ProcedureDialog extends DialogFragment {
     }
 
     private View getContentView() {
-        LayoutInflater inflater =(LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater =(LayoutInflater)getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v1=(View)inflater.inflate(R.layout.procedure_dialog, null);
+        ListView v2 = (ListView) v1.findViewById(R.id.procslist);
+        String[] procs = Proc.getProcedures();
+        v2.setAdapter(new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.procedures_text, procs));
+        
         return v1;
     }
 }

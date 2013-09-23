@@ -3,9 +3,17 @@ package com.example.vitproc2;
 import java.util.ArrayList;
 
 
+
+
+
+
+
+
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,16 +30,18 @@ public class Procedure_Card extends Card {
 	private ArrayList<ProcedureObjects> Procedures;
 	private String[] Procedure_Titles;
 	private Context Context;
-	private FragmentActivity act;
+	private Fragment act;
 	private String Title;
 	private AppObjects AppInstance;
+	private FragmentActivity frag_act;
 	public Procedure_Card(String mTitle,Context context)
 	{
 		super(mTitle);
 	}
-	public Procedure_Card(Context mContext, String Category){
+	public Procedure_Card(Context mContext, String Category, FragmentActivity mActivity){
 		Context = mContext;
 		AppInstance = AppObjects.getInstance();
+		frag_act = mActivity;
 		if(Category.equals("Freshers")){
 			getCategoryTitles("Freshers");
 			Title = "Fresher Procedures";
@@ -43,12 +53,12 @@ public class Procedure_Card extends Card {
 		
 	}
 	
-	public Procedure_Card(OfficeObjects mOffice,Context mContext,FragmentActivity a){
+	public Procedure_Card(OfficeObjects mOffice,Context mContext, FragmentActivity mActivity){
 		//super("Procedures");
 		Office = mOffice;
 		Procedures = mOffice.getallProcedures();
 		Context = mContext;
-		act = a;
+		frag_act = mActivity;
 		getTitles();
 	}
 	
@@ -102,23 +112,20 @@ public class Procedure_Card extends Card {
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
 				String proc_step = (String)lv.getItemAtPosition(arg2);
-				ProcedureObjects object = getObject(proc_step);
-				/*if(object != null){
-					FragmentManager fm = act.getSupportFragmentManager();
-					
-					
-					
-				}
-				else{
-					Log.d("Null Reference", "Accessed a null bitch");
-				}*/
+				Bundle args =new Bundle();
+				args.putString("ProcQuery", proc_step);
+				ProcedureDialog pd = ProcedureDialog.newInstance(frag_act);
+				pd.setArguments(args);
+				pd.show(frag_act.getSupportFragmentManager(), "Dialog");
+				 
+				
 			}
 
 		});
 		return v;
 	}
 	private ProcedureObjects getObject(String proc_name){
-		ArrayList<ProcedureObjects> Procedures = AppObjects.Procedure_Objects;
+		ArrayList<ProcedureObjects> Procedures = AppInstance.Procedure_Objects;
 		int u = 0;
 		for (int i = 0; i < Procedures.size(); i++){
 			if(Procedures.get(i).getQuery().equals(proc_name))
