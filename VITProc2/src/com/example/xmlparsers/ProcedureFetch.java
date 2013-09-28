@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import com.example.customobjects.ProcedureObjects;
 import com.example.vitproc2.AppObjects;
-import com.example.vitproc2.ProcedureObjects;
 
 import android.os.AsyncTask;
 import android.util.Log;

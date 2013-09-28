@@ -1,9 +1,9 @@
 package com.example.fragments;
 
+import com.example.cards.MyCard;
+import com.example.customobjects.OfficeObjects;
 import com.example.vitproc2.AppObjects;
-import com.example.vitproc2.MyCard;
 import com.example.vitproc2.OfficeActivity;
-import com.example.vitproc2.OfficeObjects;
 import com.example.vitproc2.R;
 import com.example.vitproc2.R.id;
 import com.example.vitproc2.R.layout;

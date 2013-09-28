@@ -1,5 +1,7 @@
 package com.example.vitproc2;
 
+import com.example.customobjects.ProcedureObjects;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
