@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment{
 					if( i != -1){
 						try{
 							Intent intent = new Intent(getActivity(), OfficeActivity.class);
-							intent.putExtra("office", v.getText().toString());
+							intent.putExtra("Office_Fragment", v.getText().toString());
 							getActivity().startActivity(intent);
 							
 						}

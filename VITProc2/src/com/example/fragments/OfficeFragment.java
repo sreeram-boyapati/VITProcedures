@@ -14,6 +14,7 @@ import android.os.StrictMode;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -34,6 +35,7 @@ public class OfficeFragment extends Fragment {
 		        container, false);
 		Bundle args = getArguments();
 		office_title = (String) args.get("Office_Title");
+		Log.d("office_title", office_title);
 		InitializeUI(view);
 		return view;
 	}
@@ -47,10 +49,11 @@ public class OfficeFragment extends Fragment {
 				CardView.addCard(new OfficeCard(office,getActivity().getApplicationContext()));
 				CardView.addCard(new Procedure_Card(office, getActivity().getApplicationContext(), getActivity()));
 			}
+			CardView.refresh();
 		}
 		catch (Exception e){
 			e.printStackTrace();
 		}
-		CardView.refresh();
+		
 	}
 }

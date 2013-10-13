@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation" >
 
-    <string name="app_name">VITProc2</string>
+    <string name="app_name">VIT Procedures</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">Choose a Category</string>
-    <string name="drawer_close">Open the Drawer</string><string name="title_activity_office">VIT Procedures</string>
-    
+    <string name="drawer_close">Open the Drawer</string>
+    <string name="title_activity_office">VIT Procedures</string>
     <string name="title_activity_fresher_proc">VIT Procedures</string>
     <string name="title_activity_clubs">VIT Procedures</string>
+    <string name="title_activity_search">VIT Procedures</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string-array name="Yes_No">
+        <item>@string/yes</item>
+        <item>@string/no</item>
+    </string-array>
+
+    <string name="title_activity_search">SearchActivity</string>
 
 </resources>

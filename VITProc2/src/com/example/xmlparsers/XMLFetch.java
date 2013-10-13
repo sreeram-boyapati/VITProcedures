@@ -50,6 +50,7 @@ public class XMLFetch extends AsyncTask<String, Void, String[]>
 				Categories=new String[al.size()];
 				Categories=al.toArray(Categories);
 				in.close();
+				
 	 		}
 		catch(Exception e)
 		{

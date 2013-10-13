@@ -60,12 +60,20 @@ class Proc_Data(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/xml'
         self.response.write(file)
 
+class VersionNumber(webapp2.RequestHandler):
+    def get(self):
+        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.write(1)
+
+
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/home', HomeHandler),
     ('/catData', Category_Data),
     ('/officeData', Office_Data),
-    ('/procData',Proc_Data),
+    ('/procData', Proc_Data),
+    ('/Version', VersionNumber),
 ], debug=True)
 
 

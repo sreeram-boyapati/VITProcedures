@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="16dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp" >
+
+        <TextView
+            android:id="@+id/addyourproc"
+            style="@style/CardTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add The Information" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/stroke" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selectable_background_cardbank"
+        android:gravity="center_vertical"
+        android:padding="4dp" >
+		
+        <TextView
+            android:id="@+id/Custom_Query_Label"
+            style="@style/CardText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="4"
+            android:text="Query: "
+            android:textSize="16sp" />
+
+        <EditText 
+            android:id="@+id/addcustomQuery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:hint="Enter the text"
+            android:lines="2"
+            android:maxLines="4"
+            android:freezesText="true"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:layout_toRightOf="@id/Custom_Query_Label"
+            android:layout_alignBaseline="@id/Custom_Query_Label"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/Custom_Office_Label"
+            style="@style/CardText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addcustomQuery"
+            android:layout_marginTop="10dip"
+            android:layout_marginLeft="8dip"
+            android:maxLines="4"
+            android:text="Office: "
+            android:textSize="16sp" />
+        <EditText 
+            android:id="@+id/addcustomOffice"
+            style="@style/CardText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:hint="Enter the Office"
+            android:maxLines="4"
+            android:freezesText="true"
+            android:inputType="text"
+            android:layout_below="@id/addcustomQuery"
+            android:layout_toRightOf="@id/Custom_Office_Label"
+            android:layout_alignBaseline="@id/Custom_Office_Label"
+            android:textSize="16sp"/>
+
+         <TextView
+             android:id="@+id/Custom_Clubs_Label"
+             style="@style/CardText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@id/addcustomOffice"
+             android:layout_marginTop="10dip"
+             android:layout_marginLeft="8dip"
+             android:text="Needed:"
+             android:textSize="16sp" />
+         
+          <Spinner
+            android:id="@+id/clubs_spinner"
+            style="@style/CardText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addcustomOffice"
+            android:layout_marginLeft="8dip"
+            android:layout_toRightOf="@+id/Custom_Clubs_Label"
+            android:layout_alignBaseline="@id/Custom_Clubs_Label"
+            android:spinnerMode="dropdown"
+            android:entries="@array/Yes_No"
+            />
+          
+    </RelativeLayout>
+
+</LinearLayout>

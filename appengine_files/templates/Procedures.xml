@@ -5,7 +5,11 @@
 			<Query>Permission to conduct an Event</Query>
 			<Freshers>Yes</Freshers>
 			<Clubs>Yes</Clubs>
-			<Proc>Motherfucker is always in a meeting (Maybe he has a blowjob business)</Proc>
+            <Proc>Address the Letter to Dean, Student Welfare</Proc>
+			<Proc>Get your Presidents' and Faculty Co ordinator's Signature in order</Proc>
+            <Proc>Submit the letter to DSW office and collect it after 2 hours</Proc>
+            <Proc>Show the signed copy to the school office to allocate a room.</Proc>
+            <Proc>Carry the letter till the event is over and then document it for your annual report.</Proc>
 		</Procedure>
 		<Procedure>
 			<Office>Director Academics</Office>
@@ -13,15 +17,14 @@
             <Freshers>No</Freshers>
             <Clubs>Yes</Clubs>
 			<Proc>cvxbcvbvcbsdfwerq</Proc>
-            <Proc>Go wait for 100 days</Proc>
-            <Proc>You are lucky if he did not have his period that day you problem may get solved</Proc>
-            <Proc>Go back to Proc 1 till you are vexed of your own life</Proc>
 		</Procedure>
 		<Procedure>
 			<Office>Controller of Examinations</Office>
 			<Query>Apply for a new hall ticket</Query>
             <Freshers>Yes</Freshers>
             <Clubs>Yes</Clubs>
-			<Proc>mnnbcdwert</Proc>
+			<Proc>Write a request letter and get it signed at COE office (SJT)</Proc>
+            <Proc>Submit it at Finance Office(MB), Pay the fine and submit the receipt to COE office</Proc>
+            <Proc>Wait for a day</Proc>
 		</Procedure>
 	</Procedures>

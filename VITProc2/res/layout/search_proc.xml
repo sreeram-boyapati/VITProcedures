@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/search_proc"
+    android:textColor="#666869"
+    android:paddingLeft="8dip"
+    android:paddingTop="8dip"
+    android:paddingBottom="8dip"
+    android:typeface="serif"
+    android:ellipsize="end"
+    android:textSize="18sp"
+    android:maxLines="3"/>

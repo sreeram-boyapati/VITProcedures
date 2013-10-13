@@ -1,14 +1,22 @@
 package com.example.vitproc2;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Reader;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.apache.http.util.ByteArrayBuffer;
 
 import com.example.customobjects.OfficeObjects;
 import com.example.customobjects.ProcedureObjects;
@@ -19,6 +27,8 @@ import com.helpshift.Helpshift;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -35,8 +45,12 @@ public class AppObjects extends Application implements Serializable{
 	public final String Office_KEY = "Offices.data";
 	public final String Procedure_KEY = "Procedures.data";
 	public final String Category_KEY = "Categories.data";
+	public final String Version_Key = "Version_Check";
 	public List<String> Cat_List;
 	public boolean appState;
+	public String Version;
+	public String fetched_version;
+	boolean checked_version;
 	public static AppObjects getInstance(){
 		
 		return AppInstance;
@@ -53,14 +67,29 @@ public class AppObjects extends Application implements Serializable{
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy); 
 		appState = true;
-		Log.d("AppState","AppState Initialized to true");
+	
 		AppInstance = this;
+		try{
+			SharedPreferences version_check = getSharedPreferences(Version_Key, Context.MODE_PRIVATE);
+			AppInstance.Version = version_check.getString("Version", "");
+			Log.d("Shared_Fetcher", "Version Fetched");
+			
+		}
+		catch(Exception e){
+			AppInstance.Version = "0";
+			
+			e.printStackTrace();
+		}
+		
 		try {
-			AppInstance.initializeInstance();
+			checked_version = checkVersion();
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		hs = new Helpshift(this);
 		
 		
@@ -69,30 +98,50 @@ public class AppObjects extends Application implements Serializable{
 		
 	}
 	
-	protected void initializeInstance() throws Exception{
-		if(!AppInstance.readObject(getApplicationContext())){
-			if(AppInstance.isNetworkOnline()){
-				
-				Office_Objects = new OfficeFetch().doInBackground("http://practiceapp911@appspot.com/officeData");
-				Procedure_Objects = new ProcedureFetch().doInBackground("http://practiceapp911@appspot.com/procData");
-				Categories = new XMLFetch().doInBackground("http://practiceapp911@appspot.com/catData");
-				AppInstance.writeData(getApplicationContext());
-				link_office_proc();
-				Toast.makeText(getApplicationContext(), "Data Cached", Toast.LENGTH_SHORT).show();
-				
+	public boolean checkVersion() throws Exception{
+		URL url = new URL("http://practiceapp911.appspot.com/Version");
+		try {
+			InputStream in = url.openStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+			String read = reader.readLine();
+			AppInstance.fetched_version = read;
+			Log.d("Fetched Version", AppInstance.fetched_version);
+			Log.d("Current Version", AppInstance.Version);
+			
+			in.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Toast.makeText(getApplicationContext(), "Version Check Failed", Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+			return true;
+		}
+		if(AppInstance.fetched_version != null){
+			if(AppInstance.Version.equalsIgnoreCase(AppInstance.fetched_version)){
+				Toast.makeText(getApplicationContext(), "Version Checked", Toast.LENGTH_SHORT).show();
+				return true;
 			}
 			else{
-				Toast.makeText(getApplicationContext(), "No Network Connection - Connect to internet", Toast.LENGTH_LONG);
-				AppInstance.appState = false;
-				
+				AppInstance.Version = AppInstance.fetched_version;
+				SharedPreferences prefs = getSharedPreferences(Version_Key, Context.MODE_PRIVATE);
+				Editor editor = prefs.edit();
+				editor.putString("Version", AppInstance.Version);
+				editor.commit();
+				Toast.makeText(getApplicationContext(), "Version Checked", Toast.LENGTH_SHORT).show();
+				return false;
 			}
 		}
 		else{
-			link_office_proc();
-			Toast.makeText(getApplicationContext(), "Cached Data Fetched", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Version Check Failed", Toast.LENGTH_SHORT).show();
+			return false;
 		}
 		
+		
+		
 	}
+	
+	
+	
+	
 	
 	public int getItemPosition(CharSequence text1){
 		String text = (String)text1;
