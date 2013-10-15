@@ -9,8 +9,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -324,8 +326,8 @@ public class MainActivity extends FragmentActivity {
 						Long difference = (present - AppInstance.stamped_time);
 						long diff = difference.longValue();
 						difference = difference / 1000;
-						if (diff / 1000 > 86400) {
-							Log.d("Difference", difference.toString());
+						Log.d("Difference", difference.toString());
+						if (diff / 1000 > 86400) {	
 							Log.d("Update Data", "Scheduled Update");
 							updateData();
 						}
@@ -366,6 +368,10 @@ public class MainActivity extends FragmentActivity {
 					.show();
 		}
 		AppInstance.stamped_time = System.currentTimeMillis();
+		SharedPreferences time = getSharedPreferences(AppInstance.TIMESTAMP_KEY, Context.MODE_PRIVATE);
+		Editor editor = time.edit();
+		editor.putLong("TimerStamp", AppInstance.stamped_time);
+		editor.commit();
 	}
 
 	public void first_initialization() {
@@ -374,6 +380,10 @@ public class MainActivity extends FragmentActivity {
 			AppInstance.checked_version = AppInstance.checkVersion();
 			AppInstance.fetchData();
 			AppInstance.stamped_time = System.currentTimeMillis();
+			SharedPreferences time = getSharedPreferences(AppInstance.TIMESTAMP_KEY, Context.MODE_PRIVATE);
+			Editor editor = time.edit();
+			editor.putLong("TimerStamp", AppInstance.stamped_time);
+			editor.commit();
 			Long stamper = Long.valueOf(AppInstance.stamped_time);
 			Log.d("365 stamped Time", stamper.toString());
 		} catch (Exception e) {

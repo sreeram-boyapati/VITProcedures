@@ -52,6 +52,7 @@ public class AppObjects extends Application implements Serializable {
 	public final String Category_KEY = "Categories.data";
 	public final String Version_Key = "Version_Check";
 	public final String VersionFirst_Key = "Version_First";
+	public final String TIMESTAMP_KEY = "TimeStamp";
 	public List<String> Cat_List;
 	public int version_firstinstance;
 	public boolean appState;
@@ -113,6 +114,13 @@ public class AppObjects extends Application implements Serializable {
 			else{
 				checked_version = true;
 			}
+			
+			SharedPreferences time = getSharedPreferences(TIMESTAMP_KEY, Context.MODE_PRIVATE);
+			if(time.contains("TimerStamp")){
+				AppInstance.stamped_time = time.getLong("TimerStamp", 0);
+				Long i = Long.valueOf(AppInstance.stamped_time);
+				Log.d("122 AppInstance stamp_time", i.toString());
+			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -155,8 +163,8 @@ public class AppObjects extends Application implements Serializable {
 		if (AppInstance.fetched_version != null) {
 			if (AppInstance.Version
 					.equalsIgnoreCase(AppInstance.fetched_version)) {
-			//	Toast.makeText(getApplicationContext(), "Version Checked",
-				//		Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Version Checked",
+					Toast.LENGTH_SHORT).show();
 				return true; // same version
 			} else {
 				AppInstance.Version = AppInstance.fetched_version;
