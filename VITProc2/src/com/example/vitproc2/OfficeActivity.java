@@ -5,12 +5,6 @@ import java.util.ArrayList;
 import com.example.customobjects.ProcedureObjects;
 import com.example.fragments.OfficeFragment;
 
-
-
-
-
-
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.SearchManager;
@@ -25,12 +19,14 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+
 public class OfficeActivity extends ActionBarActivity {
 	private FragmentTransaction ft;
 	private String intent_text;
 	private ListView searchList;
 	final AppObjects AppInstance = AppObjects.getInstance();
-    ArrayList<ProcedureObjects> procedures;
+	ArrayList<ProcedureObjects> procedures;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,22 +37,20 @@ public class OfficeActivity extends ActionBarActivity {
 		String office_title = intent.getStringExtra("Office_Fragment");
 		Bundle bundle = new Bundle();
 		bundle.putString("Office_Title", office_title);
-				OfficeFragment office= new OfficeFragment();
-				office.setArguments(bundle);
-				final FragmentTransaction ft = getSupportFragmentManager().beginTransaction().add(R.id.office_fragview, office);
-				ft.commit();
-				
-		
-		
+		OfficeFragment office = new OfficeFragment();
+		office.setArguments(bundle);
+		final FragmentTransaction ft = getSupportFragmentManager()
+				.beginTransaction().add(R.id.office_fragview, office);
+		ft.commit();
+
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.office, menu);
-		
+
 		return true;
 	}
-	
 
 }

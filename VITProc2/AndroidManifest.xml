@@ -37,19 +37,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.vitproc2.MainActivity" />
         </activity>
-         <activity
-            android:name="com.example.vitproc2.SearchActivity"
-            android:label="@string/title_activity_search" 
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.vitproc2.MainActivity" />
-            <intent-filter>
-            <action android:name="android.intent.action.SEARCH" />
-        </intent-filter>
-        <meta-data android:name="android.app.searchable"
-                   android:resource="@layout/searchable"/>
-        </activity>
         <activity
             android:name="com.example.fragments.OfficeFragment"
             android:label="@string/title_activity_office" >

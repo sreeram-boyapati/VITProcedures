@@ -63,19 +63,27 @@ public class AddProcFragment extends Fragment {
 		final View view = inflater.inflate(R.layout.fragment_addprox,
 		        container, false);
 		Button submit  = (Button)view.findViewById(R.id.add_proc_submit);
+		final TextView QueryView = (TextView) view.findViewById(R.id.addcustomQuery);
+		final TextView OfficeView = (TextView) view.findViewById(R.id.addcustomOffice);
+		TextView ProceduresView = (TextView) view.findViewById(R.id.Proc1);
 		submit.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				proc = InitializeProcObject(view);
-				if(isNetworkOnline()){
-					AddProctoDatabase();
-					Toast.makeText(getActivity().getApplicationContext(), "Info Submitted", Toast.LENGTH_SHORT).show();
+				if(QueryView.getText() != null && OfficeView.getText() != null){
+					if(isNetworkOnline()){
+						AddProctoDatabase();
+						Toast.makeText(getActivity().getApplicationContext(), "Info Submitted", Toast.LENGTH_SHORT).show();
+					}
+					else{
+						Toast.makeText(getActivity().getApplicationContext(), "Connect to Internet and Submit Again", Toast.LENGTH_SHORT).show();
+					}
 				}
-				else{
-					Toast.makeText(getActivity().getApplicationContext(), "Connect to Internet and Submit Again", Toast.LENGTH_SHORT).show();
-				}
+			else{
+				
+			}
 			}
 		});
 		
