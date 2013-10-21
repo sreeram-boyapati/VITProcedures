@@ -16,7 +16,7 @@
 			<Query>Permission to renew attendance</Query>
             <Freshers>No</Freshers>
             <Clubs>Yes</Clubs>
-			<Proc>cvxbcvbvcbsdfwerq</Proc>
+			<Proc>No Idea, Please contribute information.</Proc>
 		</Procedure>
 		<Procedure>
 			<Office>Controller of Examinations</Office>
@@ -27,4 +27,54 @@
             <Proc>Submit it at Finance Office(MB), Pay the fine and submit the receipt to COE office</Proc>
             <Proc>Wait for a day</Proc>
 		</Procedure>
+        <Procedure>
+			<Office>Director Student Welfare</Office>
+			<Query>Take Permission a hall </Query>
+            <Freshers>No</Freshers>
+            <Clubs>Yes</Clubs>
+			<Proc>Take an Event Permission from DSW (Check that Procedure, Its listed.)</Proc>
+            <Proc>Ask the secretary at DSW office to book the hall for you.</Proc>
+            <Proc>Hall booking is subject to availability </Proc>
+            <Proc>Disclaimer: Your Hall Booking may get cancelled if an important event needs it.</Proc>
+		</Procedure>
+        <Procedure>
+            <Office>Chief Warden</Office>
+			<Query>Permission to leave Hostel during graVITas</Query>
+            <Freshers>Yes</Freshers>
+            <Clubs>No</Clubs>
+			<Proc>Fill the online form at academics.vit.ac.in and submit it.</Proc>
+            <Proc>Write a letter requesting to grant leave.</Proc>
+            <Proc>Get the letter signed by Proctor, Programme Manager(with his stamp) and Chief Warden</Proc>
+            <Proc>Show the letter to proctor, he will approve your leave</Proc>
+            <Proc>Programme Manager will call(or request email) your parents for verification</Proc>
+            <Proc>Important: Programme Manager must write "recommended" on your letter.</Proc>
+        </Procedure>
+        <Procedure>
+            <Office>Assistant Registrar</Office>
+			<Query>Replace Id Card</Query>
+            <Freshers>Yes</Freshers>
+            <Clubs>No</Clubs>
+			<Proc>Take your broken ID card and write a letter requesting replacement.</Proc>
+            <Proc>Pay the fine at finance office.</Proc>
+            <Proc>Take the receipt and go to CTS change your id card.</Proc>
+            <Proc>Go back to A.R office to get a tag</Proc>
+        </Procedure>
+        <Procedure>
+            <Office>Assistant Registrar</Office>
+			<Query>Get a new Id Card</Query>
+            <Freshers>Yes</Freshers>
+            <Clubs>No</Clubs>
+			<Proc>write a letter requesting replacement.</Proc>
+            <Proc>Pay the fine at finance office.</Proc>
+            <Proc>Take the receipt and go to CTS change your id card.</Proc>
+            <Proc>Go back to A.R office to get a tag</Proc>
+            <Proc>Fines: 500, 1000, 2000</Proc>
+        </Procedure>
+        <Procedure>
+            <Office>Chief Warden</Office>
+			<Query>Permission to change room.</Query>
+            <Freshers>Yes</Freshers>
+            <Clubs>No</Clubs>
+			<Proc>No Idea, Please contribute information.</Proc>
+       </Procedure>
 	</Procedures>

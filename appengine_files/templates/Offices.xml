@@ -2,27 +2,33 @@
 <Offices>
 	<Office>
 		<Name>Director Student Welfare </Name>
-		<Timings>6pm-8pm</Timings>
+		<Timings>9am-5pm</Timings>
 		<Location>Main Building</Location>
 	</Office>
 	<Office>
 		<Name>Director Academics </Name>
-		<Timings>6pm-8pm</Timings>
+		<Timings>9am-5pm</Timings>
 		<Location>GDN</Location>
 	</Office>
 	<Office>
 		<Name>Controller of Examinations</Name>
-		<Timings>6pm-8pm</Timings>
+		<Timings>9pm-5pm</Timings>
 		<Location>SJT</Location>
 	</Office>
     <Office>
         <Name>Chief Warden</Name>
-        <Timings>6pm-8pm</Timings>
+        <Timings>9am-5pm</Timings>
         <Location>Hostel Office</Location>
+    </Office>
+    <Office>
+        <Name>Assistant Registrar</Name>
+        <Timings>9am - 5pm</Timings>
+        <Location>Above Souvenir Shop</Location>
     </Office>
     <Office>
         <Name>Programme Chairs</Name>
         <Timings>9am - 5pm</Timings>
         <Location>School Office</Location>
     </Office>
+
 </Offices>

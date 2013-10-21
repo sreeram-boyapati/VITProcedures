@@ -4,31 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingBottom="16dp" >
-
+    
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp" >
-
-        <TextView
-            android:id="@+id/Proceduretitle"
-            style="@style/CardTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Procedures" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="4dp"
-        android:background="@color/stroke" />
-
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selectable_background_cardbank"
@@ -36,7 +13,7 @@
         android:padding="4dp" >
 		
        <TextView
-            android:id="@+id/card_proccard_text"
+            android:id="@+id/card_indiproc_text"
             style="@style/CardText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,6 +22,6 @@
             android:textSize="18sp"
             android:maxLines="4"/>
    
-    </RelativeLayout>
-
+    </LinearLayout>
+	
 </LinearLayout>
