@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/Officetitle"
-            style="@style/CardTitle"
+          
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -26,19 +26,19 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_marginTop="4dp"
-        android:background="@color/stroke" />
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selectable_background_cardbank"
+        
         android:gravity="center_vertical"
         android:padding="4dp" >
 		
    
         <TextView
             android:id="@+id/Timings_label"
-            style="@style/CardText"
+           
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -48,7 +48,7 @@
             android:text="Timings"/>
          <TextView
               android:id="@+id/Timings"
-              style="@style/CardText"
+             
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignBaseline="@+id/Timings_label"
@@ -60,7 +60,7 @@
               android:maxLines="4" />
          <TextView
             android:id="@+id/Location_label"
-            style="@style/CardText"
+            
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/Timings"
@@ -72,7 +72,7 @@
             android:maxLines="4"/>
           <TextView
             android:id="@+id/Location"
-            style="@style/CardText"
+         
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/Location_label"

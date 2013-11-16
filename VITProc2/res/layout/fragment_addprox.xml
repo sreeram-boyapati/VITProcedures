@@ -14,12 +14,12 @@
 
         <TextView
             android:id="@+id/InfoTitle"
-            style="@style/CardTitleBold"
+            
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dip"
             android:layout_weight="1"
-            android:text="Add The Information" />
+            android:text="Add Information -  just fill the 'Query' field if you don't know" />
 
     </LinearLayout>
 
@@ -27,20 +27,20 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_marginTop="4dp"
-        android:background="@color/stroke" />
+       />
 	<ScrollView 
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selectable_background_cardbank"
+       
         android:gravity="center_vertical"
         android:padding="4dp" >
 		
         <TextView
             android:id="@+id/Custom_Query_Label"
-            style="@style/CardText"
+        
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -52,7 +52,7 @@
 
         <EditText 
             android:id="@+id/addcustomQuery"
-            style="@style/CardText"
+            
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -68,7 +68,7 @@
 
         <TextView
             android:id="@+id/Custom_Office_Label"
-            style="@style/CardText"
+            
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/addcustomQuery"
@@ -79,7 +79,7 @@
             android:textSize="16sp" />
         <EditText 
             android:id="@+id/addcustomOffice"
-            style="@style/CardText"
+         
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -96,7 +96,7 @@
 
          <TextView
              android:id="@+id/Custom_Clubs_Label"
-             style="@style/CardText"
+             
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_below="@id/addcustomOffice"
@@ -107,7 +107,7 @@
          
           <Spinner
             android:id="@+id/clubs_spinner"
-            style="@style/CardText"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/addcustomOffice"
@@ -119,7 +119,7 @@
             />
           <TextView
              android:id="@+id/Custom_Freshers_Label"
-             style="@style/CardText"
+
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_below="@id/clubs_spinner"
@@ -130,7 +130,7 @@
          
           <Spinner
             android:id="@+id/Freshers_spinner"
-            style="@style/CardText"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/clubs_spinner"
@@ -143,7 +143,7 @@
           
           <TextView
             android:id="@+id/Custom_Proc_Label"
-            style="@style/CardTitle"
+            
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/Freshers_spinner"
@@ -159,10 +159,10 @@
            android:layout_marginTop="4dp"
            android:layout_below="@id/Custom_Proc_Label"
            android:id="@+id/Custom_Proc_Stroke"
-           android:background="@color/stroke" />
+            />
           <EditText
             android:id="@+id/Proc1"
-            style="@style/CardText"
+           
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/Custom_Proc_Stroke"
@@ -177,7 +177,7 @@
           
           <EditText
             android:id="@+id/Proc2"
-            style="@style/CardText"
+         
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/Proc1"
@@ -191,7 +191,7 @@
             android:textSize="16sp" />
          <EditText
             android:id="@+id/Proc3"
-            style="@style/CardText"
+          
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/Proc2"
@@ -205,7 +205,7 @@
             android:textSize="16sp" />
          <EditText
             android:id="@+id/Proc4"
-            style="@style/CardText"
+         
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/Proc3"
@@ -219,7 +219,7 @@
             android:textSize="16sp" />
          <EditText
             android:id="@+id/Proc5"
-            style="@style/CardText"
+            
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/Proc4"

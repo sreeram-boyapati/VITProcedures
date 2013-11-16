@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="DuplicateDefinition" severity="informational" />
+    <issue id="ExtraTranslation" severity="informational" />
+    <issue id="MissingTranslation" severity="warning" />
+    <issue id="NewApi" severity="informational" />
+    <issue id="Orientation" severity="warning" />
+    <issue id="UnknownId" severity="error" />
 </lint>

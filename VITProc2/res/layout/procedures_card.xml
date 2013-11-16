@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/Proceduretitle"
-            style="@style/CardTitle"
+            
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -26,18 +26,18 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_marginTop="4dp"
-        android:background="@color/stroke" />
+         />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selectable_background_cardbank"
+        
         android:gravity="center_vertical"
         android:padding="4dp" >
 		
        <TextView
             android:id="@+id/card_proccard_text"
-            style="@style/CardText"
+            
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
