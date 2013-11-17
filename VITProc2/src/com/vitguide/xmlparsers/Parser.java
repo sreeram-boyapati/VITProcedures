@@ -1,6 +1,7 @@
 package com.vitguide.xmlparsers;
 
 import java.io.IOException;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,8 +14,17 @@ import com.vitguide.customobjects.ProcedureObjects;
 import com.vitguide.customobjects.Wrapper_Class;
 import com.vitguide.vitproc2.AppObjects;
 
+import com.vitguide.vitproc2.MainActivity.MyHandler;
+
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.util.Xml;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 public class Parser extends AsyncTask<String, Void, Wrapper_Class>{
 
@@ -22,12 +32,40 @@ public class Parser extends AsyncTask<String, Void, Wrapper_Class>{
 	ArrayList<ProcedureObjects> Procedure_details;
 	ArrayList<OfficeObjects> office_details;
 	InputStream in;
-	AppObjects AppInstance;
+	private MenuItem refresh_item;
+	private FragmentActivity main;
+	final AppObjects AppInstance = AppObjects.getInstance();
+	int u;
+	public MyHandler handler;
+	private int progress_check;
+	public Parser(MyHandler mact){
+		handler = mact;
+		u=0;
+	}
+	public Parser(FragmentActivity act, MyHandler handle, MenuItem item){
+		u=1;
+		handler = handle;
+		main = act;
+		refresh_item = item;
+	}
+	public Parser(FragmentActivity act, MyHandler handle){
+		u=4;
+		handler = handle;
+		main = act;
+		progress_check = 1;
+		
+	}
+	
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
 		objects = new Wrapper_Class();
+	}
+	@Override
+	protected void onProgressUpdate(Void... values) {
+		// TODO Auto-generated method stub
+		super.onProgressUpdate(values);
 	}
 	@Override
 	protected Wrapper_Class doInBackground(String... params) {
@@ -68,9 +106,44 @@ public class Parser extends AsyncTask<String, Void, Wrapper_Class>{
 	protected void onPostExecute(Wrapper_Class result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-		AppInstance = AppObjects.getInstance();
 		AppInstance.Procedure_Objects = objects.procedure_objects;
 		AppInstance.Office_Objects = objects.office_objects;
+		AppInstance.Categories = new String[] { "Home",
+				"For Clubs and Chapters", "For Freshers",
+				"Contrbute Information !!!", "Report Bugs" };
+		AppInstance.link_office_proc();
+		try {
+			AppInstance.writeData(AppInstance.getApplicationContext());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		AppInstance.appState = true;
+		AppInstance.version_firstinstance = 1;
+		Log.d("app_write", "Fetched Office, Procedure, Categories");
+		if(u==0){
+		Message msg = new Message();
+		Bundle data = new Bundle();
+		data.putString("ui", "Initialize");
+		msg.setData(data);
+		handler.sendMessage(msg);
+		}
+		else if(u == 1){
+			refresh_item.collapseActionView();
+			refresh_item.setActionView(null);
+			Toast.makeText(main.getApplicationContext(),
+					"New Version Found - Syncing Data", Toast.LENGTH_SHORT).show();
+			Intent intent = main.getIntent();
+			main.finish();
+			main.startActivity(intent);		
+		}
+		if(progress_check == 1){
+			Toast.makeText(main.getApplicationContext(),
+					"New Version Found - Syncing Data", Toast.LENGTH_SHORT).show();
+			Intent intent = main.getIntent();
+			main.finish();
+			main.startActivity(intent);	
+		}
 		
 	}
 	private ArrayList<ProcedureObjects> getprocedure(XmlPullParser parser) throws XmlPullParserException, IOException{
@@ -178,8 +251,6 @@ public class Parser extends AsyncTask<String, Void, Wrapper_Class>{
 	        }
 	        return result;
 	}
-	
-	//Kishore,I copied this method from stackoverflow xml parser.It is useful for nested tags.
 	
     // Skips tags the parser isn't interested in. Uses depth to handle nested tags. i.e.,
     // if the next tag after a START_TAG isn't a matching END_TAG, it keeps going until it

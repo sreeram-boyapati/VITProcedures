@@ -1,39 +1,30 @@
 package com.vitguide.vitproc2;
 
-import java.io.BufferedReader;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.helpshift.Helpshift;
 import com.vitguide.customobjects.OfficeObjects;
 import com.vitguide.customobjects.ProcedureObjects;
-import com.vitguide.xmlparsers.OfficeFetch;
-import com.vitguide.xmlparsers.ProcedureFetch;
+import com.vitguide.vitproc2.MainActivity.MyHandler;
+import com.vitguide.xmlparsers.Parser;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.StrictMode;
 import android.util.Log;
-import android.widget.Toast;
-
 public class AppObjects extends Application implements Serializable {
 	/**
 	 * 
@@ -48,13 +39,12 @@ public class AppObjects extends Application implements Serializable {
 	public final String Procedure_KEY = "Procedures.data";
 	public final String Category_KEY = "Categories.data";
 	public final String Version_Key = "Version_Check";
-	public final String VersionFirst_Key = "Version_First";
 	public final String TIMESTAMP_KEY = "TimeStamp";
 	public int version_firstinstance;
 	public boolean appState;
 	public String Version;
 	public String fetched_version;
-	boolean checked_version;
+	public boolean checked_version;
 	public long stamped_time;
 	public String Date_Stamp;
 
@@ -71,120 +61,33 @@ public class AppObjects extends Application implements Serializable {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-				.permitAll().build();
-		StrictMode.setThreadPolicy(policy);
 		appState = true;
-
 		AppInstance = this;
-
-		AppInstance.version_firstinstance = 666;
 		try {
 			SharedPreferences version_check = getSharedPreferences(Version_Key,
 					Context.MODE_PRIVATE);
-			AppInstance.Version = version_check.getString("Version", "");
+			if (version_check.contains("Version")) {
+				AppInstance.Version = version_check.getString("Version", "");
+			} else {
+				AppInstance.Version = "0";
+			}
 			Log.d("Shared_Fetcher", "Version stored Fetched");
-			
+
 		} catch (Exception e) {
 			AppInstance.Version = "0";
-
 			e.printStackTrace();
 		}
 
-		try {
-			SharedPreferences version_firstinst = getSharedPreferences(
-					VersionFirst_Key, Context.MODE_PRIVATE);
+		SharedPreferences time = getSharedPreferences(TIMESTAMP_KEY,
+				Context.MODE_PRIVATE);
+		if (time.contains("TimerStamp")) {
+			AppInstance.stamped_time = time.getLong("TimerStamp", 0);
+			Long i = Long.valueOf(AppInstance.stamped_time);
+			Log.d("122 AppInstance stamp_time", i.toString());
 
-			if (version_firstinst.contains("FirstInstance")) {
-				int temp_version_inst = version_firstinst.getInt(
-						"FirstInstance", 0);
-				Integer i = Integer.valueOf(temp_version_inst);
-				Log.d("First Instance Check", i.toString());
-				AppInstance.version_firstinstance = 1;
-			} else {
-				Log.d("FirstInstance Check", "Preference Doesnot exist");
-
-			}
-			if (AppInstance.version_firstinstance == 666) {
-
-			} else {
-				checked_version = true;
-			}
-
-			SharedPreferences time = getSharedPreferences(TIMESTAMP_KEY,
-					Context.MODE_PRIVATE);
-			if (time.contains("TimerStamp")) {
-				AppInstance.stamped_time = time.getLong("TimerStamp", 0);
-				Long i = Long.valueOf(AppInstance.stamped_time);
-				Log.d("122 AppInstance stamp_time", i.toString());
-
-			}
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		AppInstance.hs = new Helpshift(this);
-
-	}
-
-	public boolean checkVersion() throws Exception { // True, If Check Failed or
-														// Version is not
-														// changed False, New
-														// Version Arrived
-		URL url = new URL("http://practiceapp911.appspot.com/Version");
-		try {
-			boolean network_status = isNetworkOnline();
-			if (network_status) {
-				StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-						.permitAll().build();
-				StrictMode.setThreadPolicy(policy);
-				InputStream in = url.openStream();
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(in));
-				String read = reader.readLine();
-				AppInstance.fetched_version = read;
-				Log.d("Fetched Version", AppInstance.fetched_version);
-				in.close();
-			} else if (!network_status) {
-				// Toast.makeText(getApplicationContext(),
-				// "Sync Failed - Connect to Internet", Toast.LENGTH_SHORT)
-				// .show();
-				return true; // same version wont fetch data
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Toast.makeText(getApplicationContext(), "Version Check Failed",
-					Toast.LENGTH_SHORT).show();
-
-			e.printStackTrace();
-			return true; // same version, wont fetch data
-		}
-		if (AppInstance.fetched_version != null) {
-			if (AppInstance.Version
-					.equalsIgnoreCase(AppInstance.fetched_version)) {
-				Toast.makeText(getApplicationContext(), "Version Checked - No Updates",
-						Toast.LENGTH_SHORT).show();
-				return true; // same version
-			} else {
-				AppInstance.Version = AppInstance.fetched_version;
-				SharedPreferences prefs = getSharedPreferences(Version_Key,
-						Context.MODE_PRIVATE);
-				Editor editor = prefs.edit();
-				editor.putString("Version", AppInstance.Version);
-				editor.commit();
-				// Toast.makeText(getApplicationContext(), "Version Checked",
-				// Toast.LENGTH_SHORT).show();
-				return false; // different version
-			}
-		} else if (AppInstance.fetched_version == null) { // if unable to fetch,
-															// don't fetch data
-			Toast.makeText(getApplicationContext(), "Version Check Failed",
-					Toast.LENGTH_SHORT).show();
-			return true; // same version
-		}
-		return true;
 
 	}
 
@@ -301,63 +204,18 @@ public class AppObjects extends Application implements Serializable {
 		return status;
 	}
 
-	public void fetchData() throws IOException, InterruptedException,
-			ExecutionException {
-		Integer i = Integer.valueOf(AppInstance.version_firstinstance);
-		Log.d("FirstInst Fetch Check", i.toString());
-		if (AppInstance.isNetworkOnline()
-				&& AppInstance.version_firstinstance == 666) {
-			Log.d("FirstInst Fetch Check", i.toString());
-			AppInstance.Office_Objects = new OfficeFetch()
-					.doInBackground("http://practiceapp911.appspot.com/officeData");
-			AppInstance.Procedure_Objects = new ProcedureFetch()
-					.doInBackground("http://practiceapp911.appspot.com/procData");
-			
+	public void fetchData(MyHandler handler) throws IOException,
+			InterruptedException, ExecutionException {
 
-			AppInstance.link_office_proc();
-			AppInstance.writeData(getApplicationContext());
+		if (AppInstance.isNetworkOnline()) {
+			new Parser(handler).execute();
 			// Toast.makeText(getApplicationContext(), "Data Cached",
 			// Toast.LENGTH_SHORT).show();
-			AppInstance.appState = true;
-			AppInstance.version_firstinstance = 1;
-			Log.d("app_write", "Fetched Office, Procedure, Categories");
-			SharedPreferences prefs = getSharedPreferences(VersionFirst_Key,
-					Context.MODE_PRIVATE);
-			Editor editor = prefs.edit();
-			editor.putInt("FirstInstance", 1);
-			editor.commit();
 		} else {
-			if (AppInstance.version_firstinstance == 666) {
-				AppInstance.appState = false;
-			}
+			AppInstance.appState = false;
 		}
 	}
-
-	public void fetchXMLData() throws IOException {
-		if (AppInstance.isNetworkOnline()) {
-			AppInstance.Office_Objects = new OfficeFetch()
-					.doInBackground("http://practiceapp911.appspot.com/officeData");
-			AppInstance.Procedure_Objects = new ProcedureFetch()
-					.doInBackground("http://practiceapp911.appspot.com/procData");
-			AppInstance.Categories = new String[] { "Home",
-					"For Clubs and Chapters", "For Freshers",
-					"Contrbute Information !!!", "Report Bugs" };
-
-			AppInstance.link_office_proc();
-			AppInstance.writeData(getApplicationContext());
-
-			// Toast.makeText(getApplicationContext(),
-			// "Data Fetched and Cached",
-			// Toast.LENGTH_SHORT).show();
-			AppInstance.appState = true;
-		} else {
-			Log.d("FetchXML Data", "Data could not be fetched");
-			if (AppInstance.version_firstinstance == 0) {
-				AppInstance.appState = false;
-			}
-		}
-	}
-
+	@SuppressWarnings("unchecked")
 	public boolean readObject(Context context) throws IOException,
 			ClassNotFoundException {
 		try {
@@ -369,7 +227,7 @@ public class AppObjects extends Application implements Serializable {
 					.readObject();
 			AppInstance.Procedure_Objects = (ArrayList<ProcedureObjects>) ois2
 					.readObject();
-			
+
 			ois.close();
 			ois2.close();
 			fis.close();

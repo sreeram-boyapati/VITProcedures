@@ -4,8 +4,8 @@ package com.vitguide.fragments;
 
 
 import java.io.InputStream;
-
 import java.net.URL;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -13,6 +13,7 @@ import com.google.analytics.tracking.android.Tracker;
 import com.vitguide.customobjects.ProcedureObjects;
 import com.vitguide.vitproc2.AppObjects;
 import com.vitguide.vitproc2.R;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -29,7 +30,8 @@ import android.widget.Toast;
 
 public class AddProcFragment extends Fragment {
 
-	private AppObjects AppInstance;
+	@SuppressWarnings("unused")
+	private final AppObjects AppInstance = AppObjects.getInstance();
 	private ProcedureObjects proc;
 	private String Office;
 	private String Query;
@@ -72,7 +74,6 @@ public class AddProcFragment extends Fragment {
 		easyTracker.set(Fields.SCREEN_NAME, "Add Proc Screen");
 
 		easyTracker.send(MapBuilder.createAppView().build());
-		AppInstance = AppObjects.getInstance();
 		final View view = inflater.inflate(R.layout.fragment_addprox,
 				container, false);
 		Button submit = (Button) view.findViewById(R.id.add_proc_submit);

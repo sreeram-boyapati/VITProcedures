@@ -1,33 +1,27 @@
 package com.vitguide.vitproc2;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.lang.ref.WeakReference;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.StrictMode;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -44,79 +38,84 @@ import com.vitguide.fragments.ClubsFragment;
 import com.vitguide.fragments.FresherProcFragment;
 import com.vitguide.fragments.HomeFragment;
 import com.vitguide.fragments.SearchFragment;
-
+import com.vitguide.xmlparsers.GetCache;
+import com.vitguide.xmlparsers.UpdateData;
 
 public class MainActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private AppObjects myApp;
-	private AppObjects AppInstance;
+	private final AppObjects AppInstance = AppObjects.getInstance();
 	private FragmentManager fm;
 	private FragmentTransaction ft;
 	private Timer autoupdate;
 	private Helpshift hs;
 	private MenuItem refresh_button;
 	private ProgressBar bar;
+	
+	public static class MyHandler extends Handler {
+		private final WeakReference<MainActivity> mActivity;
+		private final AppObjects AppInstance = AppObjects.getInstance();
+
+		public MyHandler(MainActivity activity) {
+			mActivity = new WeakReference<MainActivity>(activity);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			MainActivity activity = mActivity.get();
+			if (msg.getData().getString("ui").equals("Initialize")) {
+				if (activity != null) {
+
+					// ...
+					if (AppInstance.appState) {
+						activity.InitializeUI();
+						
+					} else {
+						TextView tv = new TextView(
+								activity.getApplicationContext());
+						tv.setText("No Internet Connection - Connect to Internet and Restart the App. "
+								+ "App needs network to run for the first time");
+						FrameLayout fl = (FrameLayout) activity
+								.findViewById(R.id.mainFragment);
+						tv.setTextColor(activity.getResources().getColor(
+								android.R.color.black));
+						tv.setPadding(10, 10, 10, 10);
+						tv.setTextSize(20);
+						tv.setLayoutParams(new FrameLayout.LayoutParams(
+								LayoutParams.MATCH_PARENT,
+								LayoutParams.WRAP_CONTENT, Gravity.CENTER));
+						fl.addView(tv);
+
+					}
+				}
+			}
+			if(msg.getData().getString("ui").equals("Update")){
+				
+			}
+		}
+	}
+	private final MyHandler handle = new MyHandler(this);
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		AppInstance = AppObjects.getInstance();
-		try {
-			//Checks if the app is loading for the first time
-			if (AppInstance.version_firstinstance == 666) {
-				first_initialization();
-			} else {
-				initializeInstance();
-			}
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		if (!AppInstance.appState) {
-			Log.d("AppStateMain", "AppState is False");
-
-		} else {
-			Log.d("AppStateMain", "AppState is True");
-		}
 		myApp = (AppObjects) getApplication();
-
 		hs = myApp.hs;
 		hs.install(this, "42c5d263bf28926bd20fd5516c1bf35d",
 				"vitprocedures.helpshift.com",
 				"vitprocedures_platform_20130922063912082-f987f1fe1685515");
-
 		setContentView(R.layout.activity_main);
-		// TO run UI in main thread.
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+		/*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 				.permitAll().build();
-		StrictMode.setThreadPolicy(policy);
-		// Initializes the basic UI and mainPage
+		StrictMode.setThreadPolicy(policy);*/
+		fm = getSupportFragmentManager();
 		try {
-			initializeInstance();
+			getCacheData();
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		fm = getSupportFragmentManager();
-		if (AppInstance.appState) {
-			InitializeUI();
-		} else {
-			//If there is no internet and no cached date A message is shown to connect to internet.
-			TextView tv = new TextView(getApplicationContext());
-			tv.setText("No Internet Connection - Connect to Internet and Restart the App. App needs network to run for the first time");
-			FrameLayout fl = (FrameLayout) findViewById(R.id.mainFragment);
-			tv.setTextColor(getResources().getColor(android.R.color.black));
-			tv.setPadding(10, 10, 10, 10);
-			tv.setTextSize(20);
-			tv.setLayoutParams(new FrameLayout.LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT,
-					Gravity.CENTER));
-			fl.addView(tv);
-
-		}
-
 	}
 
 	@Override
@@ -134,11 +133,11 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	@SuppressLint("NewApi")
-	private void InitializeUI() {
+	public void InitializeUI() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		//getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_drawable));
+		// getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_drawable));
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, R.string.action_settings,
@@ -173,7 +172,7 @@ public class MainActivity extends FragmentActivity {
 						// TODO Auto-generated method stub
 						String cat = (String) mDrawerList
 								.getItemAtPosition(arg2);
-						
+
 						if (cat.equals("For Freshers")) {
 							FresherProcFragment freshers = new FresherProcFragment();
 
@@ -204,7 +203,8 @@ public class MainActivity extends FragmentActivity {
 							mDrawerLayout.closeDrawer(Gravity.LEFT);
 
 						}
-						if (cat.equals("Contribute Information !!!") && arg2 == 3) {
+						if (cat.equals("Contribute Information !!!")
+								&& arg2 == 3) {
 							AddProcFragment addproc = new AddProcFragment();
 							ft = getSupportFragmentManager().beginTransaction()
 									.replace(R.id.mainFragment, addproc);
@@ -227,38 +227,23 @@ public class MainActivity extends FragmentActivity {
 		ft.replace(R.id.mainFragment, hm);
 		ft.addToBackStack(null);
 		ft.commit();
-
+		bar = (ProgressBar) findViewById(android.R.id.progress);
+		bar.setVisibility(View.GONE);
+		mDrawerToggle.syncState();
+		
 	}
 
-	protected void initializeInstance() throws Exception {
-		boolean app_read = AppInstance.readObject(getApplicationContext());
-		// If cache is empty it fetches data else it just links office and proc...
-
-		if (!app_read) {
-			Log.d("227 Data Cache", "Cache Empty- true");
-			AppInstance.fetchData();
-
-		} else {
-			Log.d("231 Initialize", "Cached data Fetched - false");
-			if (AppInstance.checked_version) {
-				Log.d("Checked 229 Version", "same version");
-			}
-			AppInstance.link_office_proc();
-
-		}
-		TextView date_stamp = (TextView) this.findViewById(R.id.main_datestamp);
-		Date time = new Date(AppInstance.stamped_time);
-		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy hh:mm",
-				Locale.getDefault());
-		String ty = dateformat.format(time);
-		date_stamp.setText(ty);
+	protected void getCacheData() throws Exception {
+		// If cache is empty it fetches data else it just links office and
+		// proc...
+		new GetCache(this, handle).execute();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		
+
 		return true;
 	}
 
@@ -267,12 +252,6 @@ public class MainActivity extends FragmentActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// If the nav drawer is open, hide action items related to the content
 		// view
-		boolean drawerOpen = true;
-		if (AppInstance.appState) {
-			drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-			drawerOpen = false;
-		}
-		menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -280,10 +259,9 @@ public class MainActivity extends FragmentActivity {
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
-		if (AppInstance.appState) {
-
-			mDrawerToggle.syncState();
-		}
+		
+			
+		
 	}
 
 	@Override
@@ -307,58 +285,53 @@ public class MainActivity extends FragmentActivity {
 			break;
 		case R.id.action_websearch:
 			SearchFragment sf = new SearchFragment();
-			Tracker easyTracker2 = GoogleAnalytics.getInstance(this).getTracker("UA-44688333-1");
-			easyTracker2.send(MapBuilder
-				      .createEvent("ui_action",     // Event category (required)
-				                   "button_press",  // Event action (required)
-				                   "search_button",   // Event label
-				                   null)            // Event value
-				      .build()
-				  );
+			Tracker easyTracker2 = GoogleAnalytics.getInstance(this)
+					.getTracker("UA-44688333-1");
+			easyTracker2.send(MapBuilder.createEvent("ui_action", // Event
+																	// category
+																	// (required)
+					"button_press", // Event action (required)
+					"search_button", // Event label
+					null) // Event value
+					.build());
 			ft = getSupportFragmentManager().beginTransaction().replace(
 					R.id.mainFragment, sf);
 			ft.addToBackStack(null);
 			ft.commit();
 			break;
 		case R.id.syncer:
-			Tracker easyTracker = GoogleAnalytics.getInstance(this).getTracker("UA-44688333-1");
+			Tracker easyTracker = GoogleAnalytics.getInstance(this).getTracker(
+					"UA-44688333-1");
 			refresh_button = item;
 			refresh_button.setActionView(R.layout.progress_actionview);
 			refresh_button.expandActionView();
-			easyTracker.send(MapBuilder
-				      .createEvent("ui_action",     // Event category (required)
-				                   "button_press",  // Event action (required)
-				                   "synx_button",   // Event label
-				                   null)            // Event value
-				      .build()
-				  );
+			easyTracker.send(MapBuilder.createEvent("ui_action", // Event
+					"button_press", // Event action (required)
+					"synx_button", // Event label
+					null) // Event value
+					.build());
 			Log.d("Sync Action", "Sync Action");
-			updateData();
-			refresh_button.collapseActionView();
-			refresh_button.setActionView(null);
-			
+			new UpdateData(this, handle, refresh_button).execute();
 			break;
 		case R.id.Aboutme:
-			Tracker easyTracker41 = GoogleAnalytics.getInstance(this).getTracker("UA-44688333-1");
-			easyTracker41.send(MapBuilder
-				      .createEvent("ui_action",     // Event category (required)
-				                   "button_press",  // Event action (required)
-				                   "About Me",   // Event label
-				                   null)            // Event value
-				      .build()
-				  );
+			Tracker easyTracker41 = GoogleAnalytics.getInstance(this)
+					.getTracker("UA-44688333-1");
+			easyTracker41.send(MapBuilder.createEvent("ui_action", // Event
+					"button_press", // Event action (required)
+					"About Me", // Event label
+					null) // Event value
+					.build());
 			hs.showQuestion(this, "3");
-			
 		}
-
 		return super.onOptionsItemSelected(item);
 	}
 
-	//24 hour self update code.
+	// 24 hour self update code.
 	@Override
 	public void onResume() {
 		super.onResume();
 		autoupdate = new Timer();
+		final FragmentActivity act = this;
 		autoupdate.schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -371,7 +344,7 @@ public class MainActivity extends FragmentActivity {
 						Log.d("Difference", difference.toString());
 						if (diff / 1000 > 86400) {
 							Log.d("Update Data", "Scheduled Update");
-							updateData();
+							new UpdateData(act, handle, bar).execute();
 						}
 					}
 				});
@@ -385,120 +358,17 @@ public class MainActivity extends FragmentActivity {
 		super.onPause();
 	}
 
-	public void updateData() {
-		new Thread(new Runnable(){
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				if (AppInstance.isNetworkOnline()) {
-					try {
-						AppInstance.stamped_time = System.currentTimeMillis();
-						SharedPreferences time = getSharedPreferences(
-								AppInstance.TIMESTAMP_KEY, Context.MODE_PRIVATE);
-						Editor editor = time.edit();
-						editor.putLong("TimerStamp", AppInstance.stamped_time);
-						editor.commit();
-						
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				else {
-					runOnUiThread(new Runnable() {
-						
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							Toast.makeText(getApplicationContext(),
-									"Could not sync - Connect to internet", Toast.LENGTH_LONG)
-									.show();
-						}
-					});
-					
-				}
-				runOnUiThread(new Runnable(){
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						try{
-						boolean check_version;
-					
-							check_version = AppInstance.checkVersion();
-						
-						if (!check_version) {
-							Toast.makeText(getApplicationContext(),
-									"Version Changed  - Fetching New Data", Toast.LENGTH_LONG).show();
-							
-								AppInstance.fetchXMLData();
-							
-							AppInstance.link_office_proc();
-							Intent intent = getIntent();
-							finish();
-							startActivity(intent);
-						} else {
-							Toast.makeText(getParent(), "No Updates",
-									Toast.LENGTH_SHORT).show();
-						}
-						}
-						catch(Exception e){
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-				
-			}
-		).start();
-		
-		
-		
-	
-		
+	@Override
+	public void onStart() {
+		super.onStart();
+		// The rest of your onStart() code.
+		EasyTracker.getInstance(this).activityStart(this); // Add this method.
 	}
 
-	public void first_initialization() {
-		try {
-			Log.d("First Initialization", "666 Intialization");
-			AppInstance.checked_version = AppInstance.checkVersion();
-			AppInstance.fetchData();
-			AppInstance.stamped_time = System.currentTimeMillis();
-			TextView date_stamp = (TextView) findViewById(R.id.main_datestamp);
-			Date time1 = new Date(AppInstance.stamped_time);
-			SimpleDateFormat dateformat = new SimpleDateFormat(
-					"dd/MM/yyyy hh:mm", Locale.getDefault());
-			String ty = dateformat.format(time1);
-			date_stamp.setText(ty);
-			SharedPreferences time = getSharedPreferences(
-					AppInstance.TIMESTAMP_KEY, Context.MODE_PRIVATE);
-			Editor editor = time.edit();
-			editor.putLong("TimerStamp", AppInstance.stamped_time);
-
-			editor.commit();
-			Long stamper = Long.valueOf(AppInstance.stamped_time);
-			Log.d("365 stamped Time", stamper.toString());
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+	@Override
+	public void onStop() {
+		super.onStop();
+		// The rest of your onStop() code.
+		EasyTracker.getInstance(this).activityStop(this); // Add this method.
 	}
-	
-	 @Override
-	  public void onStart() {
-	    super.onStart();
-	    // The rest of your onStart() code.
-	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
-	    
-	  }
-	 
-	 @Override
-	  public void onStop() {
-	    super.onStop();
-	    // The rest of your onStop() code.
-	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
-	  }
 }

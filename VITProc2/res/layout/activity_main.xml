@@ -36,16 +36,25 @@
             android:layout_toRightOf="@id/main_lastupdated"
             android:layout_alignBaseline="@id/main_lastupdated"
             android:textSize="12sp" />
-
+		<ProgressBar
+		android:layout_width ="wrap_content"
+		android:layout_height = "wrap_content"
+	   	android:id="@android:id/progress"
+	   	android:layout_centerInParent="true"
+	   	style="?android:attr/progressBarStyleLarge"
+	   	android:indeterminate="true"	
+	    >
+	</ProgressBar>
         <FrameLayout
             android:id="@+id/mainFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/main_datestamp" >
+            android:layout_below="@id/main_datestamp"
+            android:layout_centerInParent="true" >
         </FrameLayout>
     </RelativeLayout>
     <!-- The navigation drawer -->
-
+	
     <ListView
         android:id="@+id/left_drawer"
         android:layout_width="240dp"

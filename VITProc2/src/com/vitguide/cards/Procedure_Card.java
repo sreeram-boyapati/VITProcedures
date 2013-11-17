@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import com.afollestad.cardsui.Card;
 import com.vitguide.vitproc2.ProcedureDialog;
 
+@SuppressWarnings("unchecked")
 public class Procedure_Card extends Card implements OnClickListener{
 	/**
 	 * 
