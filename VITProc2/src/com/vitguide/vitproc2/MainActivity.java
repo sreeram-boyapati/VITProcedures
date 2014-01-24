@@ -45,15 +45,13 @@ public class MainActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
-	private AppObjects myApp;
 	private final AppObjects AppInstance = AppObjects.getInstance();
 	private FragmentManager fm;
 	private FragmentTransaction ft;
 	private Timer autoupdate;
-	private Helpshift hs;
 	private MenuItem refresh_button;
 	private ProgressBar bar;
-	
+
 	public static class MyHandler extends Handler {
 		private final WeakReference<MainActivity> mActivity;
 		private final AppObjects AppInstance = AppObjects.getInstance();
@@ -71,7 +69,7 @@ public class MainActivity extends FragmentActivity {
 					// ...
 					if (AppInstance.appState) {
 						activity.InitializeUI();
-						
+
 					} else {
 						TextView tv = new TextView(
 								activity.getApplicationContext());
@@ -91,24 +89,24 @@ public class MainActivity extends FragmentActivity {
 					}
 				}
 			}
-			if(msg.getData().getString("ui").equals("Update")){
-				
+			if (msg.getData().getString("ui").equals("Update")) {
+
 			}
 		}
 	}
+
 	private final MyHandler handle = new MyHandler(this);
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		myApp = (AppObjects) getApplication();
-		hs = myApp.hs;
-		hs.install(this, "42c5d263bf28926bd20fd5516c1bf35d",
-				"vitprocedures.helpshift.com",
-				"vitprocedures_platform_20130922063912082-f987f1fe1685515");
+		
 		setContentView(R.layout.activity_main);
-		/*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-				.permitAll().build();
-		StrictMode.setThreadPolicy(policy);*/
+		/*
+		 * StrictMode.ThreadPolicy policy = new
+		 * StrictMode.ThreadPolicy.Builder() .permitAll().build();
+		 * StrictMode.setThreadPolicy(policy);
+		 */
 		fm = getSupportFragmentManager();
 		try {
 			getCacheData();
@@ -164,7 +162,6 @@ public class MainActivity extends FragmentActivity {
 				AppInstance.Categories));
 		mDrawerList
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-					final Helpshift hs = myApp.hs;
 
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1,
@@ -216,7 +213,7 @@ public class MainActivity extends FragmentActivity {
 
 						}
 						if (cat.equals("Report Bugs")) {
-							hs.showReportIssue(MainActivity.this);
+							Helpshift.showConversation(MainActivity.this);
 							mDrawerLayout.closeDrawer(Gravity.LEFT);
 						}
 					}
@@ -230,7 +227,7 @@ public class MainActivity extends FragmentActivity {
 		bar = (ProgressBar) findViewById(android.R.id.progress);
 		bar.setVisibility(View.GONE);
 		mDrawerToggle.syncState();
-		
+
 	}
 
 	protected void getCacheData() throws Exception {
@@ -259,9 +256,7 @@ public class MainActivity extends FragmentActivity {
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
-		
-			
-		
+
 	}
 
 	@Override
@@ -277,11 +272,10 @@ public class MainActivity extends FragmentActivity {
 		if (mDrawerToggle.onOptionsItemSelected((android.view.MenuItem) item)) {
 			return true;
 		}
-		Helpshift hs = myApp.hs;
 		// Handle your other action bar items...
 		switch (item.getItemId()) {
 		case R.id.helpSupport:
-			hs.showSupport(MainActivity.this);
+			Helpshift.showFAQs(MainActivity.this);
 			break;
 		case R.id.action_websearch:
 			SearchFragment sf = new SearchFragment();
@@ -321,7 +315,7 @@ public class MainActivity extends FragmentActivity {
 					"About Me", // Event label
 					null) // Event value
 					.build());
-			hs.showQuestion(this, "3");
+			Helpshift.showSingleFAQ(MainActivity.this, "3");
 		}
 		return super.onOptionsItemSelected(item);
 	}

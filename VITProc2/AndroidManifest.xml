@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="15"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -38,59 +38,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.vitguide.vitproc2.MainActivity" />
         </activity>
-       
-        <activity
-            android:name="com.helpshift.HelpshiftActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/HSThemeLight" />
-        <activity
-            android:name="com.helpshift.HSAddIssue"
-            android:theme="@style/HSThemeLight" />
-        <activity
-            android:name="com.helpshift.HSAddProfile"
-            android:theme="@style/HSThemeLight" />
-        <activity
-            android:name="com.helpshift.HSMessages"
-            android:theme="@style/HSThemeLight" />
-        <activity
-            android:name="com.helpshift.HSQuestionsList"
-            android:theme="@style/HSThemeLight" />
-        <activity
-            android:name="com.helpshift.HSQuestion"
-            android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true"
-            android:theme="@style/HSThemeLight" />
-        <activity
-            android:name="com.helpshift.HSSection"
-            android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true"
-            android:theme="@style/HSThemeLight" />
-        <activity
-            android:name="com.helpshift.HSInbox"
-            android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true"
-            android:theme="@style/HSThemeLight" />
-        <activity
-            android:name="com.helpshift.HSFaqs"
-            android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true"
-            android:theme="@style/HSThemeLight" />
-
-        <service
-            android:name="com.helpshift.HSService"
-            android:label="Helpshift Service" >
-        </service>
-
-        <receiver android:name="com.helpshift.HelpshiftConnReceiver" >
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name="com.helpshift.HSRetryService"
-            android:label="Helpshift Service" >
-        </service>
     </application>
 
     

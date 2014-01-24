@@ -30,7 +30,6 @@ public class AppObjects extends Application implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4273170568159375364L;
-	public Helpshift hs;
 	public static AppObjects AppInstance;
 	public ArrayList<OfficeObjects> Office_Objects;
 	public ArrayList<ProcedureObjects> Procedure_Objects;
@@ -61,6 +60,9 @@ public class AppObjects extends Application implements Serializable {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		Helpshift.install(this, "42c5d263bf28926bd20fd5516c1bf35d",
+				"vitprocedures.helpshift.com",
+				"vitprocedures_platform_20130922063912082-f987f1fe1685515");
 		appState = true;
 		AppInstance = this;
 		try {
@@ -86,8 +88,6 @@ public class AppObjects extends Application implements Serializable {
 			Log.d("122 AppInstance stamp_time", i.toString());
 
 		}
-
-		AppInstance.hs = new Helpshift(this);
 
 	}
 
