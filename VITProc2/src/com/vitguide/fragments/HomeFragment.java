@@ -1,6 +1,7 @@
 package com.vitguide.fragments;
 
 import com.afollestad.cardsui.Card;
+
 import com.afollestad.cardsui.CardAdapter;
 import com.afollestad.cardsui.CardBase;
 import com.afollestad.cardsui.CardHeader;

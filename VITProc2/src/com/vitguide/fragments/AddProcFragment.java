@@ -33,15 +33,8 @@ public class AddProcFragment extends Fragment {
 	@SuppressWarnings("unused")
 	private final AppObjects AppInstance = AppObjects.getInstance();
 	private ProcedureObjects proc;
-	private String Office;
 	private String Query;
-	private String Clubs;
-	private String Freshers;
-	private String proc1;
-	private String proc2;
-	private String proc3;
-	private String proc4;
-	private String proc5;
+	private String Email;
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
@@ -68,21 +61,19 @@ public class AddProcFragment extends Fragment {
 		// TODO Auto-generated method stub
 		Tracker easyTracker = EasyTracker.getInstance(getActivity()
 				.getApplicationContext());
-
-		// This screen name value will remain set on the tracker and sent with
-		// hits until it is set to a new value or to null.
 		easyTracker.set(Fields.SCREEN_NAME, "Add Proc Screen");
-
 		easyTracker.send(MapBuilder.createAppView().build());
+		
 		final View view = inflater.inflate(R.layout.fragment_addprox,
 				container, false);
+		proc = InitializeProcObject(view);
 		Button submit = (Button) view.findViewById(R.id.add_proc_submit);
 		submit.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				proc = InitializeProcObject(view);
+				
 				if (!Query.matches("")) {
 					if (isNetworkOnline()) {
 						AddProctoDatabase();
@@ -109,30 +100,9 @@ public class AddProcFragment extends Fragment {
 		TextView Query1 = (TextView) v.findViewById(R.id.addcustomQuery);
 		Query = Query1.getText().toString();
 		proc_object.setQuery(Query);
-		TextView Office1 = (TextView) v.findViewById(R.id.addcustomOffice);
-		Office = Office1.getText().toString();
-		proc_object.setOffice(Office);
-		Spinner clubs = (Spinner) v.findViewById(R.id.clubs_spinner);
-		Clubs = clubs.getSelectedItem().toString();
-		proc_object.setClubs(Clubs);
-		Spinner Freshers1 = (Spinner) v.findViewById(R.id.Freshers_spinner);
-		Freshers = Freshers1.getSelectedItem().toString();
-		proc_object.setFreshers(Freshers);
-		TextView Proc1 = (TextView) v.findViewById(R.id.Proc1);
-		proc1 = Proc1.getText().toString();
-		proc_object.addProcedure(proc1);
-		TextView Proc2 = (TextView) v.findViewById(R.id.Proc2);
-		proc2 = Proc2.getText().toString();
-		proc_object.addProcedure(proc2);
-		TextView Proc3 = (TextView) v.findViewById(R.id.Proc3);
-		proc3 = Proc3.getText().toString();
-		proc_object.addProcedure(proc3);
-		TextView Proc4 = (TextView) v.findViewById(R.id.Proc4);
-		proc4 = Proc4.getText().toString();
-		proc_object.addProcedure(proc4);
-		TextView Proc5 = (TextView) v.findViewById(R.id.Proc5);
-		proc5 = Proc5.getText().toString();
-		proc_object.addProcedure(proc5);
+		TextView Email_view = (TextView) v.findViewById(R.id.addEmail);
+		Email = Email_view.getText().toString();
+		proc_object.setOffice(Email);
 		return proc_object;
 
 	}
@@ -140,7 +110,7 @@ public class AddProcFragment extends Fragment {
 	private void AddProctoDatabase() {
 			
 			try{
-				URL url = new URL("http://practiceapp911.appspot.com/submitproc/"+Query+"/"+Office+"/"+Clubs+"/"+Freshers+"/"+proc1+"/"+proc2+"/"+proc3+"/"+proc4+"/"+proc5);
+				URL url = new URL("http://practiceapp911.appspot.com/submitproc/"+Query+"/"+Email+"/");
 				InputStream io = url.openStream();
 				io.close();
 			}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchActivity" >
+	
+     <com.afollestad.cardsui.CardListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/searchlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+    
+
+</RelativeLayout>

@@ -6,6 +6,7 @@
         android:orderInCategory="97"
        	android:icon="@drawable/action_search"
         android:title="Search"></item>
+    
    	<item 
    	    android:id="@+id/syncer"
    	    android:showAsAction="always"

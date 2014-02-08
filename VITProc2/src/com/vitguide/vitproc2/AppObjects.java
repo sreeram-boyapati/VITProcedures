@@ -2,6 +2,7 @@ package com.vitguide.vitproc2;
 
 
 import java.io.FileInputStream;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -30,6 +31,7 @@ public class AppObjects extends Application implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4273170568159375364L;
+	private final static String gcm_sender_id = "AIzaSyC5daByZ00uYQixot-HtW8ENtLcB3MPZSY";
 	public static AppObjects AppInstance;
 	public ArrayList<OfficeObjects> Office_Objects;
 	public ArrayList<ProcedureObjects> Procedure_Objects;
@@ -55,6 +57,7 @@ public class AppObjects extends Application implements Serializable {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		
 	}
 
 	@Override
@@ -65,6 +68,14 @@ public class AppObjects extends Application implements Serializable {
 				"vitprocedures_platform_20130922063912082-f987f1fe1685515");
 		appState = true;
 		AppInstance = this;
+		
+		//GCM Config 
+			
+		
+		
+		//END GCM Config
+		
+		
 		try {
 			SharedPreferences version_check = getSharedPreferences(Version_Key,
 					Context.MODE_PRIVATE);
@@ -238,5 +249,6 @@ public class AppObjects extends Application implements Serializable {
 			return false;
 		}
 	}
+	
 
 }

@@ -1,11 +1,13 @@
 package com.vitguide.vitproc2;
 
 import java.lang.ref.WeakReference;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -21,7 +24,10 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -240,7 +246,11 @@ public class MainActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-
+	
+			
+				
+				
+	
 		return true;
 	}
 
@@ -278,7 +288,7 @@ public class MainActivity extends FragmentActivity {
 			Helpshift.showFAQs(MainActivity.this);
 			break;
 		case R.id.action_websearch:
-			SearchFragment sf = new SearchFragment();
+			//SearchFragment sf = new SearchFragment();
 			Tracker easyTracker2 = GoogleAnalytics.getInstance(this)
 					.getTracker("UA-44688333-1");
 			easyTracker2.send(MapBuilder.createEvent("ui_action", // Event
@@ -288,10 +298,12 @@ public class MainActivity extends FragmentActivity {
 					"search_button", // Event label
 					null) // Event value
 					.build());
-			ft = getSupportFragmentManager().beginTransaction().replace(
-					R.id.mainFragment, sf);
-			ft.addToBackStack(null);
-			ft.commit();
+			Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+			startActivity(intent);
+			//ft = getSupportFragmentManager().beginTransaction().replace(
+			//		R.id.mainFragment, sf);
+			//ft.addToBackStack(null);
+			//ft.commit();
 			break;
 		case R.id.syncer:
 			Tracker easyTracker = GoogleAnalytics.getInstance(this).getTracker(
@@ -336,7 +348,7 @@ public class MainActivity extends FragmentActivity {
 						long diff = difference.longValue();
 						difference = difference / 1000;
 						Log.d("Difference", difference.toString());
-						if (diff / 1000 > 86400) {
+						if (diff / 1000 > 420) { //:P
 							Log.d("Update Data", "Scheduled Update");
 							new UpdateData(act, handle, bar).execute();
 						}

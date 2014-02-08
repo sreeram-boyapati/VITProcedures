@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dip"
             android:layout_weight="1"
-            android:text="Add Information -  just fill the 'Query' field if you don't know" />
+            android:text="Query for which you need information " />
 
     </LinearLayout>
 
@@ -31,16 +31,15 @@
 	<ScrollView 
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       
         android:gravity="center_vertical"
         android:padding="4dp" >
-		
+
         <TextView
             android:id="@+id/Custom_Query_Label"
-        
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -50,203 +49,66 @@
             android:text="Query: "
             android:textSize="16sp" />
 
-        <EditText 
+        <EditText
             android:id="@+id/addcustomQuery"
-            
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/Custom_Query_Label"
             android:layout_marginLeft="8dp"
-            android:hint="Enter the text"
-            android:lines="2"
-            android:maxLines="4"
+            android:layout_toRightOf="@id/Custom_Query_Label"
             android:freezesText="true"
+            android:hint="Query "
             android:imeOptions="actionDone"
             android:inputType="text"
-            android:layout_toRightOf="@id/Custom_Query_Label"
-            android:layout_alignBaseline="@id/Custom_Query_Label"
-            android:textSize="16sp"/>
+            android:lines="2"
+            android:maxLines="4"
+            android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/Custom_Office_Label"
-            
+            android:id="@+id/Custom_Email_Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/addcustomQuery"
+            android:layout_marginLeft="8dip"
             android:layout_marginTop="10dip"
-            android:layout_marginLeft="8dip"
             android:maxLines="4"
-            android:text="Office: "
+            android:text="Email: "
             android:textSize="16sp" />
-        <EditText 
-            android:id="@+id/addcustomOffice"
-         
+
+        <EditText
+            android:id="@+id/addEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:ellipsize="end"
-            android:lines="2"
-            android:hint="Enter the Office"
-            android:maxLines="4"
-            android:freezesText="true"
-            android:inputType="text"
-            android:layout_below="@id/addcustomQuery"
-            android:layout_toRightOf="@id/Custom_Office_Label"
             android:layout_alignBaseline="@id/Custom_Office_Label"
-            android:textSize="16sp"/>
-
-         <TextView
-             android:id="@+id/Custom_Clubs_Label"
-             
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_below="@id/addcustomOffice"
-             android:layout_marginTop="10dip"
-             android:layout_marginLeft="8dip"
-             android:text="For Clubs:"
-             android:textSize="16sp" />
-         
-          <Spinner
-            android:id="@+id/clubs_spinner"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/addcustomOffice"
-            android:layout_marginLeft="8dip"
-            android:layout_toRightOf="@+id/Custom_Clubs_Label"
-            android:layout_alignBaseline="@id/Custom_Clubs_Label"
-            android:spinnerMode="dropdown"
-            android:entries="@array/Yes_No"
-            />
-          <TextView
-             android:id="@+id/Custom_Freshers_Label"
-
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_below="@id/clubs_spinner"
-             android:layout_marginTop="10dip"
-             android:layout_marginLeft="8dip"
-             android:text="For Freshers: "
-             android:textSize="16sp" />
-         
-          <Spinner
-            android:id="@+id/Freshers_spinner"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/clubs_spinner"
-            android:layout_marginLeft="8dip"
-            android:layout_toRightOf="@+id/Custom_Freshers_Label"
-            android:layout_alignBaseline="@id/Custom_Freshers_Label"
-            android:spinnerMode="dropdown"
-            android:entries="@array/Yes_No"
-            />
-          
-          <TextView
-            android:id="@+id/Custom_Proc_Label"
-            
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Freshers_spinner"
-            android:layout_marginTop="15dip"
-            android:layout_marginLeft="8dip"
-            android:textSize="20sp"
+            android:layout_below="@id/addcustomQuery"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/Custom_Email_Label"
+            android:ellipsize="end"
+            android:freezesText="true"
+            android:hint="Your Email Address"
+            android:inputType="text"
+            android:lines="2"
             android:maxLines="4"
-            android:text="Procedures " />
- 		  <View
-     	   android:layout_width="fill_parent"
-		   android:layout_height="1dp"
-		   android:layout_marginLeft="7dip"
-           android:layout_marginTop="4dp"
-           android:layout_below="@id/Custom_Proc_Label"
-           android:id="@+id/Custom_Proc_Stroke"
-            />
-          <EditText
-            android:id="@+id/Proc1"
-           
-            android:layout_width="match_parent"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/Custom_Proc_Stroke"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/Custom_Email_Label"
+            android:layout_marginLeft="7dip"
+            android:layout_marginTop="4dp" />
+
+        <Button
+            android:id="@+id/add_proc_submit"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/Custom_Proc_Stroke"
+            android:layout_marginLeft="16dip"
             android:layout_marginTop="10dip"
-            android:layout_marginLeft="8dip"
-            android:lines="2"
-            android:hint="Point 1"
-            android:maxLines="4"
-            android:freezesText="true"
-            android:inputType="text"
-            android:textSize="16sp" />
-          
-          <EditText
-            android:id="@+id/Proc2"
-         
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Proc1"
-            android:layout_marginTop="10dip"
-            android:layout_marginLeft="8dip"
-            android:lines="2"
-            android:hint="Point 2"
-            android:maxLines="4"
-            android:freezesText="true"
-            android:inputType="text"
-            android:textSize="16sp" />
-         <EditText
-            android:id="@+id/Proc3"
-          
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Proc2"
-            android:layout_marginTop="10dip"
-            android:layout_marginLeft="8dip"
-            android:lines="2"
-            android:hint="Point 3"
-            android:maxLines="4"
-            android:freezesText="true"
-            android:inputType="text"
-            android:textSize="16sp" />
-         <EditText
-            android:id="@+id/Proc4"
-         
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Proc3"
-            android:layout_marginTop="10dip"
-            android:layout_marginLeft="8dip"
-            android:lines="2"
-            android:hint="Point 4"
-            android:maxLines="4"
-            android:freezesText="true"
-            android:inputType="text"
-            android:textSize="16sp" />
-         <EditText
-            android:id="@+id/Proc5"
-            
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Proc4"
-            android:layout_marginTop="10dip"
-            android:layout_marginLeft="8dip"
-            android:lines="2"
-            android:hint="Point 5"
-            android:maxLines="4"
-            android:freezesText="true"
-            android:inputType="text"
-            android:textSize="16sp" />
-         <Button 
-              android:id="@+id/add_proc_submit"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content" 
-              android:visibility="visible"
-              android:layout_below="@id/Proc5"
-              android:layout_marginLeft="16dip"
-              android:layout_marginTop="10dip"
-              android:text="Submit"
-            	/>
-         
-         
-          
-          
-          
-     
+            android:text="Submit"
+            android:visibility="visible" />
     </RelativeLayout>
+
 </ScrollView>
 </LinearLayout>
